@@ -80,7 +80,7 @@ export function LoginForm({
           position: "top-center",
         });
         resetForm();
-        router.push("/login");
+        router.push("/user/home");
       } catch (error) {
         toast.error("Failed to login, Please try again!", {
           position: "top-center",

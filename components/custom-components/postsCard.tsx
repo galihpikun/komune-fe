@@ -69,7 +69,7 @@ export default function PostsCard() {
       {posts.map((post) => (
         <Card
           key={post.id}
-          className="rounded-3xl border-none w-1/2 shadow-sm bg-white overflow-hidden">
+          className="rounded-3xl border-none w-full max-w-3xl shadow-sm bg-white overflow-hidden">
           {/* HEADER */}
           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
             <div className="flex gap-3">
