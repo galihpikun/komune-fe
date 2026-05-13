@@ -8,7 +8,7 @@ import TrendingForums from "@/components/custom-components/trendingForums";
 export default function Home() {
   return (
 
-    <div className="flex min-h-screen bg-blue-50">
+    <div className="flex min-h-screen bg-[#0C1222]">
       
      
       <div className="sticky top-0 h-screen">

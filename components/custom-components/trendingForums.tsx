@@ -40,10 +40,10 @@ export default function TrendingForums() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-5">
-      <Card className="rounded-3xl border-none shadow-sm">
+    <div className="flex flex-col gap-5 text-gray-200">
+      <Card className="rounded-3xl border-none shadow-sm bg-[#1E293B]">
       <CardHeader>
-        <CardTitle className="text-xl">Trending Forums</CardTitle>
+        <CardTitle className="text-xl text-gray-200">Trending Forums</CardTitle>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
@@ -59,9 +59,9 @@ export default function TrendingForums() {
               />
 
               <div className="min-w-0">
-                <h1 className="font-semibold truncate">{forum.name}</h1>
+                <h1 className="font-semibold text-gray-200 truncate">{forum.name}</h1>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-300">
                   {forum.total_members} members
                 </p>
               </div>

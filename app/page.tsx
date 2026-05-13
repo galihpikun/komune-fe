@@ -118,23 +118,23 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-blue-50 w-full h-full flex flex-col gap-15">
-      <nav className="w-full h-20 bg-white z-10 fixed px-10 py-5 flex items-center justify-between flex-row">
+    <div className="bg-[#0C1222] w-full h-full flex flex-col gap-15 text-white">
+      <nav className="w-full h-20 bg-[#0F172A] border-b border-gray-700 z-10 fixed px-10 py-5 flex items-center justify-between flex-row">
         <h1 className="text-3xl font-bold text-[#0066FF]">Komune</h1>
         <div className="flex gap-5">
           <a
             href="/"
-            className="text-gray-800 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
+            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
             Home
           </a>
           <a
             href="#about"
-            className="text-gray-800 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
+            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
             About Us
           </a>
           <a
             href="#features"
-            className="text-gray-800 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
+            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
             Features
           </a>
         </div>
@@ -155,7 +155,7 @@ export default function Home() {
             The Best modern home for{" "}
             <span className="text-blue-500">every community</span>.
           </h1>
-          <p>
+          <p className="text-gray-300">
             Komune brings people together in a modern, supportive environment
             for real time discussions. Experience the future of community living
             today.
@@ -175,7 +175,7 @@ export default function Home() {
         </div>
 
         <div className="w-full flex justify-center">
-          <div className="bg-white rounded-xl w-2/3 h-auto p-3 shadow-lg">
+          <div className="bg-[#1E293B] rounded-xl w-2/3 h-auto p-3 shadow-lg border border-gray-700">
             <img
               src="/images/landing-page/user-group.png"
               alt="User Group Image art corpo bullshit"
@@ -187,7 +187,7 @@ export default function Home() {
 
       {/* About Komune Ajg */}
       <section
-        className="flex mx-10 rounded-2xl bg-white justify-around items-center p-10 px-20 gap-5 mt-15"
+        className="flex mx-10 rounded-2xl bg-[#1E293B] border border-gray-700 justify-around items-center p-10 px-20 gap-5 mt-15"
         id="about">
         <div className="flex flex-col gap-2 w-1/4">
           <p className="text-blue-500 font-medium text-lg">Our Mission</p>
@@ -196,7 +196,7 @@ export default function Home() {
         </div>
 
         <div className="w-3/4 flex flex-col gap-5">
-          <p className="text-lg font-light">
+          <p className="text-lg font-light text-gray-300">
             A modern community platform designed to bring people together and
             foster meaningful connections with meaningful discussions. <br />
             <br />
@@ -224,7 +224,7 @@ export default function Home() {
             {communities.map((community, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 text-gray-800 font-semibold">
+                className="flex items-center gap-2 text-gray-300 font-semibold">
                 {community.icon}
                 <span>{community.name}</span>
               </div>
@@ -233,16 +233,16 @@ export default function Home() {
         </div>
 
         <div className="flex w-full gap-10 mx-10">
-          <div className="rounded-2xl bg-white p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
-            <div className="bg-blue-200 p-3 rounded-md">
-              <Users size={30} className="text-blue-500 font-medium" />
+          <div className="rounded-2xl bg-[#1E293B] border border-gray-700 p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
+            <div className="bg-[#2B4161] p-3 rounded-md">
+              <Users size={30} className="text-blue-400 font-medium" />
             </div>
 
             <h1 className="text-5xl font-medium text-center">120k+</h1>
-            <p className="text-gray-600 font-semibold text-lg">Total Users</p>
+            <p className="text-gray-300 font-semibold text-lg">Total Users</p>
           </div>
 
-          <div className="rounded-2xl bg-linear-to-t from-sky-700 to-indigo-700 p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
+          <div className="rounded-2xl bg-[#2B4161] p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5 border border-gray-700">
             <div className="bg-blue-500 p-3 rounded-md">
               <Users size={30} className="text-white font-medium" />
             </div>
@@ -250,16 +250,16 @@ export default function Home() {
             <h1 className="text-5xl text-white font-medium text-center">
               6.9k+
             </h1>
-            <p className="text-gray-50 font-semibold text-lg">Active Forums</p>
+            <p className="text-gray-100 font-semibold text-lg">Active Forums</p>
           </div>
 
-          <div className="rounded-2xl bg-white p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
-            <div className="bg-blue-200 p-3 rounded-md">
-              <Users size={30} className="text-blue-500 font-medium" />
+          <div className="rounded-2xl bg-[#1E293B] border border-gray-700 p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
+            <div className="bg-[#2B4161] p-3 rounded-md">
+              <Users size={30} className="text-blue-400 font-medium" />
             </div>
 
             <h1 className="text-5xl font-medium text-center">1M+</h1>
-            <p className="text-gray-600 font-semibold text-lg">Total Posts</p>
+            <p className="text-gray-300 font-semibold text-lg">Total Posts</p>
           </div>
         </div>
       </section>
@@ -273,7 +273,7 @@ export default function Home() {
           Built for{" "}
           <span className="text-blue-500">Meaningful Connections</span>
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-400 mt-2">
           Powerful features designed to foster meaningful interactions and build
           strong communities. <br />
           Our platform provides everything you need to create and maintain
@@ -284,15 +284,15 @@ export default function Home() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center bg-white rounded-3xl p-6 shadow-md gap-2">
-              <div className="bg-blue-100 p-4 rounded-lg mb-4 text-blue-500">
+              className="flex flex-col items-center bg-[#1E293B] border border-gray-700 rounded-3xl p-6 shadow-md gap-2">
+              <div className="bg-[#2B4161] p-4 rounded-lg mb-4 text-blue-400">
                 {feature.icon}
               </div>
               <div className="text-left p-3">
-                <h3 className="text-xl font-medium py-1 text-gray-900 mb-2">
+                <h3 className="text-xl font-medium py-1 text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-400">{feature.description}</p>
               </div>
             </div>
           ))}
@@ -314,12 +314,12 @@ export default function Home() {
             <AccordionItem
               key={faq.id}
               value={`item-${index + 1}`}
-              className="bg-white rounded-2xl px-5 py-1 shadow-sm">
+              className="bg-[#1E293B] border border-gray-700 rounded-2xl px-5 py-1 shadow-sm">
               <AccordionTrigger className="text-left hover:no-underline">
                 {faq.question}
               </AccordionTrigger>
 
-              <AccordionContent className="text-gray-600 pb-5">
+              <AccordionContent className="text-gray-400 pb-5">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -328,7 +328,7 @@ export default function Home() {
       </section>
 
       {/* CTE bangsat*/}
-      <section className="mt-15 mx-30 flex flex-col items-center justify-center gap-10 bg-linear-to-t from-sky-700 to-indigo-700 p-10 py-30 rounded-3xl shadow">
+      <section className="mt-15 mx-30 flex flex-col items-center justify-center gap-10 bg-[#2B4161] p-10 py-30 rounded-3xl shadow border border-gray-700">
         <h1 className="text-6xl text-white text-center">
           Ready to build your Dream Community <br />
           in Komune?
@@ -354,14 +354,14 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-white mt-15">
+      <footer className="border-t border-gray-700 bg-[#0F172A] mt-15">
         <div className="max-w-7xl mx-auto px-6 py-14">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             {/* Brand */}
             <div className="space-y-5">
               <h2 className="text-3xl font-bold text-blue-600">Komune</h2>
 
-              <p className="text-gray-500 leading-relaxed">
+              <p className="text-gray-400 leading-relaxed">
                 Empowering communities to talk, share, and grow together in a
                 safe, modern, and high-performance digital space.
               </p>
@@ -370,25 +370,25 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <a
                   href="#"
-                  className="p-2 rounded-full bg-gray-100 hover:bg-blue-500 hover:text-white transition">
+                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
                   <Send size={18} />
                 </a>
 
                 <a
                   href="#"
-                  className="p-2 rounded-full bg-gray-100 hover:bg-blue-500 hover:text-white transition">
+                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
                   <Bird size={18} />
                 </a>
 
                 <a
                   href="#"
-                  className="p-2 rounded-full bg-gray-100 hover:bg-blue-500 hover:text-white transition">
+                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
                   <Video size={18} />
                 </a>
 
                 <a
                   href="#"
-                  className="p-2 rounded-full bg-gray-100 hover:bg-blue-500 hover:text-white transition">
+                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
                   <MessageSquare size={18} />
                 </a>
               </div>

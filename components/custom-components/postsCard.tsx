@@ -24,6 +24,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import CommentSheet from "./commentsSheet";
 
 interface Post {
   id: number;
@@ -63,13 +64,12 @@ export default function PostsCard() {
 
     fetchPosts();
   }, []);
-
   return (
     <div className="flex flex-col gap-5">
       {posts.map((post) => (
         <Card
           key={post.id}
-          className="rounded-3xl border-none w-full max-w-3xl shadow-sm bg-white overflow-hidden">
+          className="rounded-3xl border-none w-full max-w-3xl shadow-sm bg-[#1E293B] text-white overflow-hidden">
           {/* HEADER */}
           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
             <div className="flex gap-3">
@@ -90,34 +90,34 @@ export default function PostsCard() {
 
               {/* USER INFO */}
               <div>
-                <h2 className="font-semibold text-gray-900 leading-none">
+                <h2 className="font-semibold text-gray-200 leading-none">
                   {post.username}
                 </h2>
 
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs font-semibold uppercase text-blue-600">
+                  <span className="text-xs font-semibold uppercase text-blue-500">
                     {post.forum_name}
                   </span>
 
-                  <span className="text-xs text-gray-400">•</span>
+                  <span className="text-xs text-gray-200">•</span>
 
-                  <span className="text-xs text-gray-400">2h ago</span>
+                  <span className="text-xs text-gray-200">2h ago</span>
                 </div>
               </div>
             </div>
 
-            <button className="text-gray-400 hover:text-gray-600">
+            <button className="text-gray-200 hover:text-gray-600">
               <MoreHorizontal size={20} />
             </button>
           </CardHeader>
 
           {/* CONTENT */}
           <CardContent className="pt-0">
-            <h1 className="font-semibold text-lg text-gray-900 mb-2">
+            <h1 className="font-semibold text-lg text-gray-200 mb-2">
               {post.title}
             </h1>
 
-            <p className="text-gray-600 leading-relaxed">{post.content}</p>
+            <p className="text-gray-300 leading-relaxed">{post.content}</p>
 
             {post.images && post.images.length > 0 && (
               <div className="mt-5">
@@ -148,26 +148,23 @@ export default function PostsCard() {
           </CardContent>
 
           {/* FOOTER */}
-          <CardFooter className="flex items-center justify-between border-t py-4">
+          <CardFooter className="flex items-center justify-between border-t border-gray-600 py-4">
             <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 text-blue-600 hover:opacity-80">
                 <ThumbsUp size={18} />
                 <span className="text-sm font-medium">{post.total_likes}</span>
               </button>
 
-              <button className="flex items-center gap-2 text-gray-500 hover:opacity-80">
+              <button className="flex items-center gap-2 text-gray-300 hover:opacity-80">
                 <ThumbsDown size={18} />
                 <span className="text-sm font-medium">
                   {post.total_dislikes}
                 </span>
               </button>
 
-              <button className="flex items-center gap-2 text-gray-500 hover:opacity-80">
-                <MessageSquare size={18} />
-                <span className="text-sm font-medium">
-                  {post.total_comments}
-                </span>
-              </button>
+
+                <CommentSheet postId={post.id} totalComments={post.total_comments} ></CommentSheet>
+
             </div>
           </CardFooter>
         </Card>
