@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { API_URL } from "@/lib/api";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Heart } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
@@ -16,71 +16,82 @@ interface Forum {
 }
 
 export default function TrendingForums() {
-  const [forums, setForums] = useState<Forum[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
-    async function fetchForums() {
+    async function fetchTrendingPosts() {
       try {
-        const response = await fetch(`${API_URL}/api/forums/trending`, {
-           cache: "no-store",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `${API_URL}/api/posts/trending`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
-        setForums(result.data || []);
+        setPosts(result.data || []);
       } catch (error) {
         console.error(error);
       }
     }
 
-    fetchForums();
+    fetchTrendingPosts();
   }, []);
 
   return (
     <div className="flex flex-col gap-5 text-gray-200">
       <Card className="rounded-3xl border-none shadow-sm bg-[#1E293B]">
-      <CardHeader>
-        <CardTitle className="text-xl text-gray-200">Trending Forums</CardTitle>
-      </CardHeader>
+        <CardHeader>
+          <CardTitle className="text-xl text-gray-200">
+            Trending Posts
+          </CardTitle>
+        </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        {forums.map((forum) => (
-          <div
-            key={forum.id}
-            className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <img
-                src={`${API_URL}/uploads/forums/${forum.icon_image}`}
-                alt={forum.name}
-                className="w-12 h-12 rounded-full object-cover shrink-0"
-              />
+        <CardContent className="flex flex-col gap-4">
+           {posts.map((post) => (
+        <div
+          key={post.id}
+          className="flex items-center justify-between "
+        >
+          <div>
+            <h1 className="font-semibold text-white">
+              {post.title}
+            </h1>
 
-              <div className="min-w-0">
-                <h1 className="font-semibold text-gray-200 truncate">{forum.name}</h1>
-
-                <p className="text-sm text-gray-300">
-                  {forum.total_members} members
-                </p>
-              </div>
-            </div>
-
-            <Button size="sm">
-              Join
-            </Button>
+            <p className="text-sm flex items-center gap-2 text-gray-400">
+              <Heart size={20} className="text-red-500"></Heart> {post.total_likes} likes
+            </p>
           </div>
-        ))}
-      </CardContent>
-    </Card>
-    <Card className="p-5 rounded-2xl bg-linear-to-t from-sky-700 to-indigo-700 text-white">
-      <CardTitle>Find a Community or Join into an already made one.</CardTitle>
-      <CardContent className="flex justify-around gap-5">
-        <Button className="bg-white text-blue-500 hover:scale-105 transition-all duration-200 hover:bg-blue-300 hover:text-blue-800">Create one</Button>
-        <Link href="" className="border-white border-3 rounded-lg px-2 py-1 hover:scale-105 transition-all duration-200 hover:bg-white hover:text-blue-500">Find one</Link>
-      </CardContent>
-    </Card>
+
+          <Link
+            href={`/user/post/${post.id}`}
+            className="bg-blue-500 px-3 py-2 rounded-lg text-white text-sm"
+          >
+            View
+          </Link>
+        </div>
+      ))}
+        </CardContent>
+      </Card>
+      <Card className="p-5 rounded-2xl bg-linear-to-t from-sky-700 to-indigo-700 text-white">
+        <CardTitle className="text-lg">
+          See an Innapropriate Posts? <br /><span className="font-semibold">Report it!</span> 
+        </CardTitle>
+
+        <CardContent className="flex justify-around gap-5">
+          <Button className="bg-white text-blue-500 hover:scale-105 transition-all duration-200 hover:bg-blue-300 hover:text-blue-800">
+            Create one
+          </Button>
+          <Link
+            href=""
+            className="border-white border-3 rounded-lg px-2 py-1 hover:scale-105 transition-all duration-200 hover:bg-white hover:text-blue-500">
+            Find one
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   );
 }

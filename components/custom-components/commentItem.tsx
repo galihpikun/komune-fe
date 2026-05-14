@@ -36,18 +36,21 @@ export default function CommentItem({
   onUpdate,
   onDelete,
   currentUserId,
+  level = 0,
 }: {
   comment: Comment;
   onReply: (parentId: number, content: string) => void;
   onUpdate: (id: number, content: string) => void;
   onDelete: (id: number) => void;
   currentUserId: number | null;
-}) {
+  level?: number;
+}){
   const [replyText, setReplyText] = useState("");
   const [editText, setEditText] = useState(comment.content);
 
   // Perbandingan yang aman antara ID login dan ID pemilik komen
-  const isOwner = currentUserId !== null && Number(currentUserId) === Number(comment.user_id);
+  const isOwner =
+    currentUserId !== null && Number(currentUserId) === Number(comment.user_id);
 
   return (
     <div className="space-y-2">
@@ -55,7 +58,11 @@ export default function CommentItem({
       <div className="flex gap-3 p-3 rounded-xl bg-[#2B4161] text-white">
         <div className="w-7 h-7 rounded-full bg-blue-400 flex items-center justify-center text-xs font-bold overflow-hidden shrink-0">
           {comment.avatar ? (
-            <img src={comment.avatar} className="w-full h-full object-cover" alt="avatar" />
+            <img
+              src={comment.avatar}
+              className="w-full h-full object-cover"
+              alt="avatar"
+            />
           ) : (
             comment.username[0].toUpperCase()
           )}
@@ -66,16 +73,19 @@ export default function CommentItem({
           <p className="text-sm text-gray-100">{comment.content}</p>
 
           <div className="flex gap-3 mt-2 text-xs text-gray-300">
-            {/* Tombol Reply selalu ada untuk siapa saja */}
             <Dialog>
               <DialogTrigger asChild>
                 <button className="hover:underline">Reply</button>
               </DialogTrigger>
-              {/* Dialog menggunakan 0F172A (secondary background) */}
+
               <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
                 <DialogHeader>
-                  <DialogTitle className="text-white">Reply comment</DialogTitle>
-                  <DialogDescription>Reply to the comments you desire to start a discussion.</DialogDescription>
+                  <DialogTitle className="text-white">
+                    Reply comment
+                  </DialogTitle>
+                  <DialogDescription>
+                    Reply to the comments you desire to start a discussion.
+                  </DialogDescription>
                 </DialogHeader>
                 <Input
                   className="bg-[#1E293B] border-gray-600 text-white focus:ring-blue-500"
@@ -91,8 +101,7 @@ export default function CommentItem({
                         if (!replyText.trim()) return;
                         onReply(comment.id, replyText);
                         setReplyText("");
-                      }}
-                    >
+                      }}>
                       Send
                     </Button>
                   </DialogClose>
@@ -100,7 +109,6 @@ export default function CommentItem({
               </DialogContent>
             </Dialog>
 
-            {/* Tombol Edit & Delete hanya muncul jika isOwner true */}
             {isOwner && (
               <>
                 <Dialog>
@@ -109,8 +117,12 @@ export default function CommentItem({
                   </DialogTrigger>
                   <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">Edit comment</DialogTitle>
-                      <DialogDescription>Change the mistakes of your lorem ipsum.</DialogDescription>
+                      <DialogTitle className="text-white">
+                        Edit comment
+                      </DialogTitle>
+                      <DialogDescription>
+                        Change the mistakes of your lorem ipsum.
+                      </DialogDescription>
                     </DialogHeader>
                     <Input
                       className="bg-[#1E293B] border-gray-600 text-white focus:ring-blue-500"
@@ -124,8 +136,7 @@ export default function CommentItem({
                           onClick={() => {
                             if (!editText.trim()) return;
                             onUpdate(comment.id, editText);
-                          }}
-                        >
+                          }}>
                           Save
                         </Button>
                       </DialogClose>
@@ -135,19 +146,24 @@ export default function CommentItem({
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button className="text-red-400 hover:underline">Delete</button>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
                   </DialogTrigger>
                   <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">Delete this comment?</DialogTitle>
+                      <DialogTitle className="text-white">
+                        Delete this comment?
+                      </DialogTitle>
                     </DialogHeader>
-                    <DialogDescription className="text-gray-400 text-sm">Action cannot be undone.</DialogDescription>
+                    <DialogDescription className="text-gray-400 text-sm">
+                      Action cannot be undone.
+                    </DialogDescription>
                     <DialogFooter>
                       <DialogClose asChild>
                         <Button
                           variant="destructive"
-                          onClick={() => onDelete(comment.id)}
-                        >
+                          onClick={() => onDelete(comment.id)}>
                           Yes delete
                         </Button>
                       </DialogClose>
@@ -161,20 +177,28 @@ export default function CommentItem({
       </div>
 
       {/* REPLIES (Recursive) */}
+      {/* REPLIES */}
       {comment.replies.length > 0 && (
-        <div className="ml-6 pl-3 border-l border-gray-600 space-y-2">
-          {comment.replies.map((reply) => (
-            <CommentItem
-              key={reply.id}
-              comment={reply}
-              onReply={onReply}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-              currentUserId={currentUserId}
-            />
-          ))}
-        </div>
-      )}
+  <div
+    className={`mt-2 space-y-2 ${
+      level === 0
+        ? "ml-10 border-l border-gray-600 pl-4"
+        : ""
+    }`}
+  >
+    {comment.replies.map((reply) => (
+      <CommentItem
+        key={reply.id}
+        comment={reply}
+        onReply={onReply}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        currentUserId={currentUserId}
+        level={level + 1}
+      />
+    ))}
+  </div>
+)}
     </div>
   );
 }

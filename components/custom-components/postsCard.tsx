@@ -3,20 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { API_URL } from "@/lib/api";
-
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-
-import {
-  MessageSquare,
-  ThumbsUp,
-  ThumbsDown,
-  MoreHorizontal,
-} from "lucide-react";
+import { ThumbsUp, ThumbsDown, MoreHorizontal, Loader } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -25,6 +18,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import CommentSheet from "./commentsSheet";
+import { DropdownReport } from "./postDropdown";
 
 interface Post {
   id: number;
@@ -32,8 +26,6 @@ interface Post {
   content: string;
   username: string;
   avatar: string | null;
-  forum_name: string;
-  forum_slug: string;
   total_comments: number;
   total_likes: number;
   total_dislikes: number;
@@ -43,37 +35,66 @@ interface Post {
 
 export default function PostsCard() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/posts`, {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const result = await response.json();
+      setPosts(result.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReaction = async (postId: number, type: "like" | "dislike") => {
+    try {
+      const response = await fetch(`${API_URL}/api/post-reactions/${postId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ type }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        fetchPosts();
+      }
+    } catch (error) {
+      console.error(`Error reacting to post ${postId}:`, error);
+    }
+  };
 
   useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const response = await fetch(`${API_URL}/api/posts`, {
-          cache: "no-store",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-
-        const result = await response.json();
-
-        setPosts(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     fetchPosts();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-10 text-white gap-2">
+        <Loader className="animate-spin" /> Loading posts...
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-5">
       {posts.map((post) => (
         <Card
           key={post.id}
           className="rounded-3xl border-none w-full max-w-3xl shadow-sm bg-[#1E293B] text-white overflow-hidden">
-          {/* HEADER */}
           <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
-            <div className="flex gap-3">
-              {/* AVATAR */}
+            <div className="flex gap-3 items-center">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-200 flex items-center justify-center text-white font-bold">
                 {post.avatar ? (
                   <Image
@@ -84,34 +105,27 @@ export default function PostsCard() {
                     className="object-cover w-full h-full"
                   />
                 ) : (
-                  post.username.charAt(0).toUpperCase()
+                  post.username?.charAt(0).toUpperCase()
                 )}
               </div>
 
-              {/* USER INFO */}
-              <div>
-                <h2 className="font-semibold text-gray-200 leading-none">
+              <div className="flex flex-col gap-1">
+                <h2 className="font-semibold text-gray-200 text-lg leading-none">
                   {post.username}
                 </h2>
-
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs font-semibold uppercase text-blue-500">
-                    {post.forum_name}
-                  </span>
-
-                  <span className="text-xs text-gray-200">•</span>
-
-                  <span className="text-xs text-gray-200">2h ago</span>
-                </div>
+                <span className="text-xs text-gray-400">
+                  {new Date(post.created_at).toLocaleString("id-ID", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </span>
               </div>
             </div>
 
-            <button className="text-gray-200 hover:text-gray-600">
-              <MoreHorizontal size={20} />
-            </button>
+            {/* tombol report nanti */}
+            <DropdownReport></DropdownReport>
           </CardHeader>
 
-          {/* CONTENT */}
           <CardContent className="pt-0">
             <h1 className="font-semibold text-lg text-gray-200 mb-2">
               {post.title}
@@ -125,11 +139,11 @@ export default function PostsCard() {
                   <CarouselContent>
                     {post.images.map((image, index) => (
                       <CarouselItem key={index} className="basis-full">
-                        <div className="rounded-2xl overflow-hidden bg-gray-100">
+                        <div className="rounded-2xl overflow-hidden bg-gray-800">
                           <img
                             src={`${API_URL}/uploads/posts/${image}`}
                             alt={`Post image ${index + 1}`}
-                            className="w-full h-87 object-cover"
+                            className="w-full h-80 object-cover"
                           />
                         </div>
                       </CarouselItem>
@@ -147,24 +161,28 @@ export default function PostsCard() {
             )}
           </CardContent>
 
-          {/* FOOTER */}
           <CardFooter className="flex items-center justify-between border-t border-gray-600 py-4">
             <div className="flex items-center gap-6">
-              <button className="flex items-center gap-2 text-blue-600 hover:opacity-80">
+              <button
+                onClick={() => handleReaction(post.id, "like")}
+                className="flex items-center gap-2 text-blue-400 hover:scale-110 transition-transform active:opacity-60">
                 <ThumbsUp size={18} />
                 <span className="text-sm font-medium">{post.total_likes}</span>
               </button>
 
-              <button className="flex items-center gap-2 text-gray-300 hover:opacity-80">
+              <button
+                onClick={() => handleReaction(post.id, "dislike")}
+                className="flex items-center gap-2 text-red-400 hover:scale-110 transition-transform active:opacity-60">
                 <ThumbsDown size={18} />
                 <span className="text-sm font-medium">
                   {post.total_dislikes}
                 </span>
               </button>
 
-
-                <CommentSheet postId={post.id} totalComments={post.total_comments} ></CommentSheet>
-
+              <CommentSheet
+                postId={post.id}
+                totalComments={post.total_comments}
+              />
             </div>
           </CardFooter>
         </Card>

@@ -10,23 +10,20 @@ import {
   Settings,
   CircleHelp,
   Plus,
+  FileUser,
 } from "lucide-react";
+import { title } from "process";
 
 const menuItems = [
   {
     title: "Home",
-    href: "/",
+    href: "/user/home",
     icon: Home,
   },
   {
-    title: "Explore Forums",
-    href: "/forums",
-    icon: Compass,
-  },
-  {
-    title: "Joined Communities",
-    href: "/joined",
-    icon: Users,
+    title: "Your Reports",
+    href: "user/reports",
+    icon:FileUser
   },
   {
     title: "Moderation Queue",
@@ -92,7 +89,7 @@ export default function AppSidebar() {
       <div>
         <button className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-200 text-white py-3 rounded-2xl font-semibold flex items-center justify-center gap-2 shadow-lg">
           <Plus size={18} />
-          Create Forums
+          Create A Post
         </button>
 
         <div className="mt-6 flex flex-col gap-2">
