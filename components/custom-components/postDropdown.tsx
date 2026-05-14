@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, Pencil, FileWarning, Trash } from "lucide-react"
 
-export function DropdownReport() {
+export function DropdownReport({postId}:any) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger  asChild>

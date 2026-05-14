@@ -13,6 +13,7 @@ import {
   FileUser,
 } from "lucide-react";
 import { title } from "process";
+import { CreatePost } from "./createPost";
 
 const menuItems = [
   {
@@ -87,10 +88,7 @@ export default function AppSidebar() {
       </div>
 
       <div>
-        <button className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-200 text-white py-3 rounded-2xl font-semibold flex items-center justify-center gap-2 shadow-lg">
-          <Plus size={18} />
-          Create A Post
-        </button>
+        <CreatePost></CreatePost>
 
         <div className="mt-6 flex flex-col gap-2">
           {bottomItems.map((item) => {

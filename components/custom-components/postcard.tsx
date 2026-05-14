@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { ThumbsUp, ThumbsDown, MoreHorizontal, Loader } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Loader, MapPin, CheckCircle, Clock } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -18,6 +18,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import CommentSheet from "./commentsSheet";
+import { DropdownReport } from "./postDropdown"; // Pastikan dropdown diimport
+import { Badge } from "@/components/ui/badge"; // Pastikan badge diimport
 
 interface Post {
   id: number;
@@ -25,6 +27,9 @@ interface Post {
   content: string;
   username: string;
   avatar: string | null;
+  category: string;      // Tambahan
+  location?: string;     // Tambahan
+  status_kerja: string;  // Tambahan
   total_comments: number;
   total_likes: number;
   total_dislikes: number;
@@ -35,6 +40,19 @@ interface Post {
 export default function PostCardSingular({ postId }: { postId: any }) {
   const [post, setPost] = useState<Post | null>(null);
 
+  const fetchPost = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await response.json();
+      setPost(result.data);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
 
   const handleReaction = async (type: "like" | "dislike") => {
     if (!post) return;
@@ -50,27 +68,11 @@ export default function PostCardSingular({ postId }: { postId: any }) {
       });
 
       const result = await response.json();
-
       if (result.success) {
-
         fetchPost();
       }
     } catch (error) {
       console.error(`Error ${type} post:`, error);
-    }
-  };
-
-  const fetchPost = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const result = await response.json();
-      setPost(result.data);
-    } catch (error) {
-      console.error("Error fetching post:", error);
     }
   };
 
@@ -91,7 +93,8 @@ export default function PostCardSingular({ postId }: { postId: any }) {
     <Card className="rounded-3xl border-none w-full max-w-3xl shadow-sm bg-[#1E293B] text-white overflow-hidden">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
         <div className="flex gap-3 items-center">
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-200 flex items-center justify-center text-white font-bold">
+          {/* AVATAR */}
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-600 flex items-center justify-center text-white font-bold shrink-0">
             {post.avatar ? (
               <Image
                 src={post.avatar}
@@ -104,28 +107,65 @@ export default function PostCardSingular({ postId }: { postId: any }) {
               post.username?.charAt(0).toUpperCase()
             )}
           </div>
-          <div className="flex flex-col gap-1">
-            <h2 className="font-semibold text-gray-200 text-lg leading-none">
-              {post.username}
-            </h2>
-            <span className="text-xs text-gray-400">
-  {new Date(post.created_at).toLocaleString("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  })}
-</span>
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <h2 className="font-semibold text-gray-200 text-lg leading-none">
+                {post.username}
+              </h2>
+              {/* BADGE KATEGORI */}
+              <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 border-none text-[10px] h-5">
+                {post.category}
+              </Badge>
+            </div>
+
+            {/* LOKASI */}
+            {post.location && (
+              <div className="flex items-center gap-1 text-gray-400 mt-1">
+                <MapPin size={12} className="text-red-400" />
+                <span className="text-xs italic">{post.location}</span>
+              </div>
+            )}
+
+            <span className="text-[10px] text-gray-500 mt-0.5">
+              {new Date(post.created_at).toLocaleString("id-ID", {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </span>
           </div>
         </div>
-        <button className="text-gray-200 hover:text-gray-600">
-          <MoreHorizontal size={20} />
-        </button>
+
+        <div className="flex flex-col items-end gap-2">
+          <DropdownReport postId={post.id} />
+
+          {/* STATUS KERJA (Hanya jika Report) */}
+          {post.category === "Report" && (
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border transition-colors ${
+              post.status_kerja === 'resolved' 
+                ? 'bg-green-500/20 text-green-400 border-green-500/30' 
+                : post.status_kerja === 'in_progress'
+                ? 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+                : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+            }`}>
+              {post.status_kerja === 'resolved' ? (
+                <CheckCircle size={12} />
+              ) : (
+                <Clock size={12} />
+              )}
+              {post.status_kerja === 'resolved' && 'Selesai'}
+              {post.status_kerja === 'in_progress' && 'Sedang Diproses'}
+              {post.status_kerja === 'not_reviewed' && 'Belum Ditinjau'}
+            </div>
+          )}
+        </div>
       </CardHeader>
 
       <CardContent className="pt-0">
         <h1 className="font-semibold text-lg text-gray-200 mb-2">
           {post.title}
         </h1>
-        <p className="text-gray-300 leading-relaxed">{post.content}</p>
+        <p className="text-gray-300 leading-relaxed text-sm">{post.content}</p>
 
         {post.images && post.images.length > 0 && (
           <div className="mt-5">
@@ -133,11 +173,11 @@ export default function PostCardSingular({ postId }: { postId: any }) {
               <CarouselContent>
                 {post.images.map((image, index) => (
                   <CarouselItem key={index}>
-                    <div className="rounded-2xl overflow-hidden bg-gray-800">
+                    <div className="rounded-2xl overflow-hidden bg-gray-800 aspect-video">
                       <img
                         src={`${API_URL}/uploads/posts/${image}`}
                         alt="Post content"
-                        className="w-full h-80 object-cover"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   </CarouselItem>
@@ -154,7 +194,7 @@ export default function PostCardSingular({ postId }: { postId: any }) {
         )}
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between border-t border-gray-600 py-4">
+      <CardFooter className="flex items-center justify-between border-t border-gray-700/50 py-4">
         <div className="flex items-center gap-6">
           <button
             onClick={() => handleReaction("like")}
