@@ -9,7 +9,14 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { ThumbsUp, ThumbsDown, Loader, MapPin, CheckCircle, Clock } from "lucide-react";
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Loader,
+  MapPin,
+  CheckCircle,
+  Clock,
+} from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -23,13 +30,14 @@ import { Badge } from "@/components/ui/badge"; // Pastikan badge diimport
 
 interface Post {
   id: number;
+  user_id: number;
   title: string;
   content: string;
   username: string;
   avatar: string | null;
-  category: string;      // Tambahan
-  location?: string;     // Tambahan
-  status_kerja: string;  // Tambahan
+  category: string; // Tambahan
+  location?: string; // Tambahan
+  status_kerja: string; // Tambahan
   total_comments: number;
   total_likes: number;
   total_dislikes: number;
@@ -114,7 +122,9 @@ export default function PostCardSingular({ postId }: { postId: any }) {
                 {post.username}
               </h2>
               {/* BADGE KATEGORI */}
-              <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 border-none text-[10px] h-5">
+              <Badge
+                variant="secondary"
+                className="bg-blue-500/10 text-blue-400 border-none text-[10px] h-5">
                 {post.category}
               </Badge>
             </div>
@@ -137,25 +147,26 @@ export default function PostCardSingular({ postId }: { postId: any }) {
         </div>
 
         <div className="flex flex-col items-end gap-2">
-          <DropdownReport postId={post.id} />
+          <DropdownReport postId={post.id} postOwnerId={post.user_id} />
 
           {/* STATUS KERJA (Hanya jika Report) */}
           {post.category === "Report" && (
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border transition-colors ${
-              post.status_kerja === 'resolved' 
-                ? 'bg-green-500/20 text-green-400 border-green-500/30' 
-                : post.status_kerja === 'in_progress'
-                ? 'bg-blue-500/20 text-blue-400 border-blue-500/30'
-                : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
-            }`}>
-              {post.status_kerja === 'resolved' ? (
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border transition-colors ${
+                post.status_kerja === "resolved"
+                  ? "bg-green-500/20 text-green-400 border-green-500/30"
+                  : post.status_kerja === "in_progress"
+                    ? "bg-blue-500/20 text-blue-400 border-blue-500/30"
+                    : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+              }`}>
+              {post.status_kerja === "resolved" ? (
                 <CheckCircle size={12} />
               ) : (
                 <Clock size={12} />
               )}
-              {post.status_kerja === 'resolved' && 'Selesai'}
-              {post.status_kerja === 'in_progress' && 'Sedang Diproses'}
-              {post.status_kerja === 'not_reviewed' && 'Belum Ditinjau'}
+              {post.status_kerja === "resolved" && "Selesai"}
+              {post.status_kerja === "in_progress" && "Sedang Diproses"}
+              {post.status_kerja === "not_reviewed" && "Belum Ditinjau"}
             </div>
           )}
         </div>

@@ -31,6 +31,7 @@ import { Badge } from "../ui/badge";
 
 interface Post {
   id: number;
+  user_id: number;
   title: string;
   content: string;
   username: string;
@@ -151,7 +152,7 @@ export default function PostsCard() {
             </div>
 
             <div className="flex flex-col items-end gap-2">
-              <DropdownReport postId={post.id} />
+              <DropdownReport postId={post.id} postOwnerId={post.user_id} />
 
               {/* STATUS KERJA PETUGAS (Hanya muncul jika kategori 'Report') */}
               {post.category === "Report" && (
