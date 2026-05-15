@@ -93,6 +93,21 @@ export default function UserPosts() {
             key={post.id}
             className="bg-[#1E293B] border-slate-700/50 overflow-hidden rounded-[1.5rem] shadow-xl flex flex-col h-full">
             <div className="relative group w-full aspect-video bg-slate-900 overflow-hidden rounded-t-xl">
+              <div className="absolute top-3 left-3 z-10 flex gap-2">
+                <Badge
+                  className={`
+      text-[10px] uppercase font-bold px-2 py-0.5 border-none shadow-lg
+      ${
+        post.status === "approved"
+          ? "bg-emerald-500 text-white"
+          : post.status === "rejected"
+            ? "bg-rose-500 text-white"
+            : "bg-amber-500 text-black"
+      }
+    `}>
+                  {post.status}
+                </Badge>
+              </div>
               {post.images && post.images.length > 0 ? (
                 <Carousel className="w-full h-full">
                   {/* PENTING: Kita pakai ml-0 untuk reset margin negatif Shadcn
@@ -192,8 +207,8 @@ export default function UserPosts() {
                     </div>
                     <Link
                       href={`/user/post/${post.id}`}
-                      className="px-2 py-1 text-sm hover:bg-blue-500 hover:text-white transition-all duration-300 rounded">
-                      Visi Posts
+                      className="px-2 py-1 text-sm text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 rounded">
+                      Visit Posts
                     </Link>
                   </div>
                 </div>

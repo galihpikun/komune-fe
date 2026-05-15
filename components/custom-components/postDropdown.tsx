@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Pencil, FileWarning, Trash } from "lucide-react";
 import { DialogReport } from "./dialogReport";
+import { DeleteAlertDialog } from "./deleteAlertDialog";
 
 interface DecodedToken {
   id: number;
@@ -60,21 +61,19 @@ export function DropdownReport({
 
           {isOwner ? (
             <>
-              {/* Muncul hanya jika OWNER */}
               <DropdownMenuItem className="cursor-pointer focus:bg-slate-800 focus:text-white flex gap-2">
                 <Pencil size={16} /> Update
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer focus:bg-red-600 focus:text-white flex gap-2 text-red-400">
-                <Trash size={16} /> Delete
+              <DropdownMenuItem onSelect={(e: any) => e.preventDefault()} className="cursor-pointer focus:bg-red-600 focus:text-white flex gap-2 text-red-400">
+                <DeleteAlertDialog postId={postId}></DeleteAlertDialog>
               </DropdownMenuItem>
             </>
           ) : (
-            <DropdownMenuItem 
-      onSelect={(e) => e.preventDefault()} 
-      className="cursor-pointer focus:bg-slate-800 focus:text-white p-0"
-    >
-      <DialogReport postId={postId} />
-    </DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={(e) => e.preventDefault()}
+              className="cursor-pointer focus:bg-slate-800 focus:text-white p-0">
+              <DialogReport postId={postId} />
+            </DropdownMenuItem>
           )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
