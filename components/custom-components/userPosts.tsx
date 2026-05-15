@@ -77,7 +77,6 @@ export default function UserPosts() {
   }
 
   return (
-
     <div className="flex flex-col p-10 pb-10 gap-8 w-full max-w-[1400px] mx-auto py-6">
       <div className="space-y-1">
         <h2 className="text-3xl font-bold text-white tracking-tight">
@@ -88,65 +87,55 @@ export default function UserPosts() {
         </p>
       </div>
 
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
-          
           <Card
             key={post.id}
             className="bg-[#1E293B] border-slate-700/50 overflow-hidden rounded-[1.5rem] shadow-xl flex flex-col h-full">
-    
-            <div className="relative group w-full aspect-video bg-slate-900/50">
+            <div className="relative group w-full aspect-video bg-slate-900 overflow-hidden rounded-t-xl">
               {post.images && post.images.length > 0 ? (
                 <Carousel className="w-full h-full">
-                  <CarouselContent>
+                  {/* PENTING: Kita pakai ml-0 untuk reset margin negatif Shadcn
+         dan h-full supaya kontennya narik ke atas/bawah 
+      */}
+                  <CarouselContent className="h-full ml-0">
                     {post.images.map((image, index) => (
-                      <CarouselItem key={index}>
+                      /* pl-0 supaya gambar benar-benar mepet ke kiri 
+             h-full supaya gambar memenuhi tinggi aspect-video 
+          */
+                      <CarouselItem key={index} className="pl-0 h-full">
                         <img
                           src={`${API_URL}/uploads/posts/${image}`}
                           alt="Post content"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover select-none pointer-events-none"
                         />
                       </CarouselItem>
                     ))}
                   </CarouselContent>
+
                   {post.images.length > 1 && (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <CarouselPrevious className="left-2 h-7 w-7 bg-black/60 border-none text-white hover:bg-black" />
-                      <CarouselNext className="right-2 h-7 w-7 bg-black/60 border-none text-white hover:bg-black" />
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <CarouselPrevious className="left-2 h-8 w-8 bg-black/50 border-none text-white hover:bg-black/80 backdrop-blur-sm" />
+                      <CarouselNext className="right-2 h-8 w-8 bg-black/50 border-none text-white hover:bg-black/80 backdrop-blur-sm" />
                     </div>
                   )}
                 </Carousel>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-slate-600 gap-2">
-                  <AlertCircle size={32} />
-                  <span className="text-[10px] italic">No images</span>
+                <div className="w-full h-full flex flex-col items-center justify-center text-slate-700 bg-slate-900/30 gap-2">
+                  <AlertCircle size={32} strokeWidth={1.5} />
+                  <span className="text-[10px] uppercase tracking-widest font-bold">
+                    No Media Available
+                  </span>
                 </div>
               )}
-
-      
-              <div className="absolute top-3 left-3 flex gap-2">
-                <Badge
-                  className={`${
-                    post.status === "approved"
-                      ? "bg-green-500"
-                      : post.status === "rejected"
-                        ? "bg-red-500"
-                        : "bg-yellow-500"
-                  } text-white border-none text-[10px] py-0 px-2`}>
-                  {post.status}
-                </Badge>
-              </div>
             </div>
             <CardContent className="p-5 flex flex-col flex-1">
-
               <div className="flex justify-between items-start gap-2 mb-2">
                 <h3 className="text-lg font-bold text-white line-clamp-1 leading-tight">
                   {post.title}
                 </h3>
                 <DropdownReport postId={post.id} postOwnerId={post.user_id} />
               </div>
-
 
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">
@@ -165,7 +154,6 @@ export default function UserPosts() {
                 {post.content}
               </p>
 
-  
               <div className="mt-auto space-y-3 pt-3 border-t border-slate-700/50">
                 <div className="flex items-center justify-between">
                   {/* Keliatan status kerja kalau report doang */}
@@ -190,9 +178,8 @@ export default function UserPosts() {
                           : "PENDING"}
                     </div>
                   ) : (
-                    <div /> 
+                    <div />
                   )}
-
 
                   <div className="flex items-center gap-3 text-slate-400 font-medium">
                     <div className="flex items-center gap-1 text-[10px]">
@@ -203,7 +190,11 @@ export default function UserPosts() {
                       <MessageSquare size={12} className="text-slate-500" />{" "}
                       {post.total_comments}
                     </div>
-                    <Link href={`/user/post/${post.id}`} className="px-2 py-1 text-sm hover:bg-blue-500 hover:text-white transition-all duration-300 rounded-xl">Visi Posts</Link>
+                    <Link
+                      href={`/user/post/${post.id}`}
+                      className="px-2 py-1 text-sm hover:bg-blue-500 hover:text-white transition-all duration-300 rounded">
+                      Visi Posts
+                    </Link>
                   </div>
                 </div>
               </div>
