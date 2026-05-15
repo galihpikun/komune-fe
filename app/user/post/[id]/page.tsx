@@ -23,33 +23,32 @@ export default async function Post({params}:any) {
   return (
 
     <div className="flex min-h-screen bg-[#0C1222]">
-      
-     
-      <div className="sticky top-0 h-screen">
-        <AppSidebar />
-      </div>
-
-      <div className="flex flex-col flex-1">
-
-        <div className="sticky top-0 z-10">
-          <TopBar />
-        </div>
-
-
-        <div className="flex flex-1">
           
-
-          <div className="flex-1 p-10">
-            {/* post card nanti */}
-            <PostCardSingular postId={id}></PostCardSingular>
+          {/* Sidebar */}
+          <aside className="hidden lg:block sticky top-0 h-screen border-r border-slate-800">
+            <AppSidebar />
+          </aside>
+    
+          <div className="flex flex-col flex-1 min-w-0">
+    
+            <header className="sticky top-0 z-20">
+              <TopBar />
+            </header>
+    
+            <main className="flex flex-1 justify-center lg:justify-start">
+              
+              {/* Home posts */}
+              <div className="w-full max-w-3xl p-4 md:p-10">
+                <PostCardSingular postId={id} />
+              </div>
+    
+              {/* Sampingan aside */}
+              <aside className="hidden xl:block w-[350px] sticky top-[100px] h-fit p-5 mr-5">
+                <TrendingForums />
+              </aside>
+    
+            </main>
           </div>
-
-          <div className="w-90 fixed right-5 p-5">
-            <TrendingForums />
-          </div>
-
         </div>
-      </div>
-    </div>
   );
 }

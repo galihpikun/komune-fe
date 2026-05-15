@@ -22,8 +22,8 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: "Your Reports",
-    href: "user/reports",
+    title: "Your Posts",
+    href: "/user/user-posts",
     icon:FileUser
   },
   {

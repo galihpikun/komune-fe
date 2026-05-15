@@ -4,8 +4,9 @@ import AppSidebar from "@/components/custom-components/sidebarUser";
 import TopBar from "@/components/custom-components/topBar";
 import PostsCard from "@/components/custom-components/postsCard";
 import TrendingForums from "@/components/custom-components/trendingForums";
+import UserPosts from "@/components/custom-components/userPosts";
 
-export default function Home() {
+export default function userPost() {
   return (
     <div className="flex min-h-screen bg-[#0C1222]">
       
@@ -21,16 +22,9 @@ export default function Home() {
         </header>
 
         <main className="flex flex-1 justify-center lg:justify-start">
+          <UserPosts></UserPosts>          
           
-          {/* Home posts */}
-          <div className="w-full max-w-3xl p-4 md:p-10">
-            <PostsCard />
-          </div>
-
-          {/* Sampingan aside */}
-          <aside className="hidden xl:block w-[350px] sticky top-[100px] h-fit p-5 mr-5">
-            <TrendingForums />
-          </aside>
+          
 
         </main>
       </div>

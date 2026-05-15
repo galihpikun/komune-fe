@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Stars,
@@ -18,6 +20,8 @@ import {
   Lock,
   ChartColumnIncreasing,
   Bolt,
+  Menu,
+  X,
 } from "lucide-react";
 import {
   Accordion,
@@ -26,8 +30,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const communities = [
     {
       icon: <Cuboid size={30} />,
@@ -51,42 +58,39 @@ export default function Home() {
     },
   ];
 
-  const features = [
+  const featuresTop = [
     {
-      icon: <Cog size={30} />,
       title: "Community Driven Feeds",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
+        "Empowering you to achieve your goals with flexible, reliable, and stress-free financing solutions.",
+      image: "/images/landing-page/online-commune.jpg",
     },
     {
-      icon: <Gavel size={30} />,
-      title: "Good Moderations",
+      title: "Good Moderation",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
+        "Affordable interest rates designed to fit your budget and save you more.",
+      image: "/images/landing-page/moderation.jpg",
     },
     {
-      icon: <Lock size={30} />,
-      title: "Secure Community Spaces",
+      title: "Secure Spaces",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
+        "No hidden fees, no surprises. Understand your loan terms from the start.",
+      image: "/images/landing-page/safe.jpeg",
     },
+  ];
+
+  const featuresBottom = [
     {
-      icon: <Palette size={30} />,
-      title: "Beautiful Customization",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
-    },
-    {
-      icon: <ChartColumnIncreasing size={30} />,
       title: "Advanced Analytics",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
+        "Choose from personalized plans tailored to your needs, whether it's for personal, business, or home improvement.",
+      image: "/images/landing-page/anal.jpg",
     },
     {
-      icon: <Bolt size={30} />,
       title: "Lightning Fast Performance",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae neque vel alias, distinctio similique voluptatum voluptatem quod quas. Provident molestiae molestias in dolor voluptatem.",
+        "Our dedicated team is here to guide you at every step, anytime you need us.",
+      image: "/images/landing-page/fast.jpg",
     },
   ];
 
@@ -118,408 +122,298 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-[#0C1222] w-full h-full flex flex-col gap-15 text-white">
-      <nav className="w-full h-20 bg-[#0F172A] border-b border-gray-700 z-10 fixed px-10 py-5 flex items-center justify-between flex-row">
-        <h1 className="text-3xl font-bold text-[#0066FF]">Komune</h1>
-        <div className="flex gap-5">
-          <a
-            href="/"
-            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
-            Home
-          </a>
-          <a
-            href="#about"
-            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
-            About Us
-          </a>
-          <a
-            href="#features"
-            className="text-gray-300 hover:text-blue-500 font-medium hover:font-semibold transition-all duration-300 hover:underline">
-            Features
-          </a>
+    <div className="bg-[#0C1222] w-full h-full flex flex-col gap-10 md:gap-15 text-white">
+      <nav className="w-full h-20 bg-[#0F172A]/70 backdrop-blur-md z-50 fixed px-6 md:px-10 py-5 flex items-center justify-between flex-row">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#0066FF]">Komune</h1>
+        
+        <div className="hidden md:flex gap-8">
+          <a href="/" className="text-gray-300 hover:text-blue-500 font-medium transition-all">Home</a>
+          <a href="#about" className="text-gray-300 hover:text-blue-500 font-medium transition-all">About Us</a>
+          <a href="#features" className="text-gray-300 hover:text-blue-500 font-medium transition-all">Features</a>
         </div>
-        <Link href="/login">
-          <Button className="font-medium hover:scale-110 px-5 py-2 bg-[#0066FF] hover:bg-blue-400">
-            Sign In
-          </Button>
-        </Link>
+
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="hidden sm:block">
+            <Button className="font-medium hover:scale-105 px-5 py-2 bg-[#0066FF] hover:bg-blue-400">
+              Sign In
+            </Button>
+          </Link>
+          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMenuOpen && (
+          <div className="absolute top-20 left-0 w-full bg-[#0F172A] border-b border-gray-700 flex flex-col p-6 gap-4 md:hidden animate-in slide-in-from-top">
+            <a href="/" onClick={() => setIsMenuOpen(false)} className="text-lg">Home</a>
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-lg">About Us</a>
+            <a href="#features" onClick={() => setIsMenuOpen(false)} className="text-lg">Features</a>
+            <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+              <Button className="w-full bg-[#0066FF]">Sign In</Button>
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section sialan */}
-      <section className="flex justify-between items-center p-10 py-5 w-full mt-30">
-        <div className="flex flex-col gap-3 w-full">
-          <p className="px-3 py-1 rounded-full bg-blue-400 flex gap-1 w-fit text-sm items-center text-white">
-            <Stars size={15} /> Voted no.1 Community in Jomokerto 2069
-          </p>
-          <h1 className="text-5xl font-semibold">
-            The Best modern home for{" "}
-            <span className="text-blue-500">every community</span>.
+      <section
+        className="relative flex flex-col lg:flex-row items-center justify-between gap-12 px-6 md:px-10 py-16 md:py-20 min-h-[80vh] w-full mt-20 overflow-hidden"
+        id="hero">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="flex flex-col gap-6 w-full lg:w-1/2 z-5 text-center lg:text-left items-center lg:items-start">
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 w-fit text-sm font-medium text-blue-400">
+            <Stars size={16} className="fill-blue-400" />
+            <span>Voted no.1 Community in Jomokerto 2069</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.1] text-white tracking-tight">
+            The Best modern home for <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+              every community
+            </span>
+            .
           </h1>
-          <p className="text-gray-300">
+
+          <p className="text-slate-400 text-base md:text-xl leading-relaxed max-w-xl">
             Komune brings people together in a modern, supportive environment
-            for real time discussions. Experience the future of community living
+            for real-time discussions. Experience the future of community living
             today.
           </p>
-          <div className="flex gap-5 mt-5">
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
             <Link
               href="/signup"
-              className="bg-blue-500 text-white rounded-full px-4 py-2 text-lg font-semibold hover:border-2 hover:border-blue-500 hover:bg-white transition-all duration-300 hover:text-blue-500">
+              className="bg-blue-600 text-white rounded-full px-8 py-4 text-lg font-bold shadow-lg shadow-blue-500/25 hover:bg-blue-500 hover:-translate-y-1 transition-all text-center">
               Get Started!
             </Link>
             <Link
               href="#about"
-              className="rounded-full px-4 font-semibold py-2 text-lg text-blue-500 border-2 border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300">
+              className="rounded-full px-8 py-4 text-lg font-bold text-white border-2 border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-all text-center">
               Learn More
             </Link>
           </div>
         </div>
 
-        <div className="w-full flex justify-center">
-          <div className="bg-[#1E293B] rounded-xl w-2/3 h-auto p-3 shadow-lg border border-gray-700">
-            <img
-              src="/images/landing-page/user-group.png"
-              alt="User Group Image art corpo bullshit"
-              className=""
-            />
+        <div className="w-full lg:w-1/2 flex justify-center relative">
+          <div className="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full scale-75" />
+          <div className="relative bg-[#1E293B] rounded-[2rem] md:rounded-[2.5rem] w-full max-w-lg p-3 md:p-4 shadow-2xl border border-slate-700/50">
+            <div className="rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden bg-slate-800">
+              <img
+                src="/images/landing-page/user-group.png"
+                alt="User Group"
+                className="w-full h-auto object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* About Komune Ajg */}
       <section
-        className="flex mx-10 rounded-2xl bg-[#1E293B] border border-gray-700 justify-around items-center p-10 px-20 gap-5 mt-15"
+        className="flex flex-col lg:flex-row mx-4 md:mx-10 rounded-2xl bg-[#1E293B] border border-gray-700 p-8 md:p-14 lg:px-20 gap-8 md:gap-10 mt-10 md:mt-15"
         id="about">
-        <div className="flex flex-col gap-2 w-1/4">
-          <p className="text-blue-500 font-medium text-lg">Our Mission</p>
-          <h1 className="font-semibold text-3xl">About Komune</h1>
-          <div className="w-4/12 border-b-4 border-blue-500 py-1"></div>
+        <div className="flex flex-col gap-2 w-full lg:w-1/4">
+          <p className="text-blue-500 font-medium text-lg text-center lg:text-left">Our Mission</p>
+          <h1 className="font-semibold text-3xl text-center lg:text-left">About Komune</h1>
+          <div className="w-2/12 lg:w-4/12 border-b-4 border-blue-500 py-1 mx-auto lg:mx-0"></div>
         </div>
 
-        <div className="w-3/4 flex flex-col gap-5">
-          <p className="text-lg font-light text-gray-300">
+        <div className="w-full lg:w-3/4 flex flex-col gap-5 text-center lg:text-left">
+          <p className="text-base md:text-lg font-light text-gray-300 leading-relaxed">
             A modern community platform designed to bring people together and
-            foster meaningful connections with meaningful discussions. <br />
+            foster meaningful connections with meaningful discussions. <br className="hidden md:block" />
             <br />
             Built for creators, communities, workers, hobbyists and everyone to
             share knowledge and built lasting digital homes. We believe in the
-            power of community to drive positive change, empowering every voice
-            with tools that prioritize community importance.
+            power of community to drive positive change.
           </p>
-          <h1 className="text-blue-500 flex items-center">
-            <ShieldCheck /> Trusted by Security & Design
+          <h1 className="text-blue-500 flex items-center justify-center lg:justify-start gap-2">
+            <ShieldCheck size={20} /> Trusted by Security & Design
           </h1>
         </div>
       </section>
 
       {/* User Stats */}
       <section
-        className="my-30 flex flex-col gap-10 items-center justify-center mx-20"
+        className="my-20 md:my-32 flex flex-col gap-12 md:gap-16 items-center justify-center px-6"
         id="stats">
-        {/* Opening Stats */}
-        <div className="flex flex-col items-center justify-center gap-5">
-          <p className="text-lg font-medium text-blue-500">
-            Trusted by over 10,000 users worldwide
-          </p>
-          <div className="flex gap-10">
+        <div className="flex flex-col items-center justify-center gap-6 md:gap-8 text-center">
+          <div className="space-y-2">
+            <p className="text-blue-500 font-semibold tracking-widest uppercase text-[10px] md:text-xs">
+              Join the Global Movement
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-white max-w-md md:max-w-none">
+              Trusted by over 10,000 users worldwide
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 opacity-60">
             {communities.map((community, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 text-gray-300 font-semibold">
-                {community.icon}
+                className="flex items-center gap-2 px-3 md:px-4 py-2 bg-slate-800/40 border border-slate-700/50 rounded-full text-slate-300 font-medium text-xs md:text-sm">
+                <span className="text-blue-400 scale-75 md:scale-100">{community.icon}</span>
                 <span>{community.name}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex w-full gap-10 mx-10">
-          <div className="rounded-2xl bg-[#1E293B] border border-gray-700 p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
-            <div className="bg-[#2B4161] p-3 rounded-md">
-              <Users size={30} className="text-blue-400 font-medium" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-4 md:px-0">
+          <div className="group rounded-[2rem] bg-[#1E293B] border border-slate-700/50 p-8 md:p-10 flex flex-col items-center justify-center gap-4">
+            <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-400"><Users size={28} /></div>
+            <div className="text-center">
+              <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tighter">120k<span className="text-blue-500">+</span></h1>
+              <p className="text-slate-400 font-medium mt-2">Total Users</p>
             </div>
-
-            <h1 className="text-5xl font-medium text-center">120k+</h1>
-            <p className="text-gray-300 font-semibold text-lg">Total Users</p>
           </div>
 
-          <div className="rounded-2xl bg-[#2B4161] p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5 border border-gray-700">
-            <div className="bg-blue-500 p-3 rounded-md">
-              <Users size={30} className="text-white font-medium" />
+          <div className="group relative rounded-[2rem] bg-gradient-to-b from-blue-600 to-blue-700 p-8 md:p-10 flex flex-col items-center justify-center gap-4 shadow-xl md:transform md:-translate-y-4">
+            <div className="p-3 rounded-2xl bg-white/20 text-white"><Users size={32} /></div>
+            <div className="text-center">
+              <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tighter">6.9k<span className="text-blue-200">+</span></h1>
+              <p className="text-blue-100 font-semibold text-lg mt-2">Active Forums</p>
             </div>
-
-            <h1 className="text-5xl text-white font-medium text-center">
-              6.9k+
-            </h1>
-            <p className="text-gray-100 font-semibold text-lg">Active Forums</p>
           </div>
 
-          <div className="rounded-2xl bg-[#1E293B] border border-gray-700 p-10 shadow-lg h-1/2 w-4/12 flex flex-col items-center justify-center gap-5">
-            <div className="bg-[#2B4161] p-3 rounded-md">
-              <Users size={30} className="text-blue-400 font-medium" />
+          <div className="group rounded-[2rem] bg-[#1E293B] border border-slate-700/50 p-8 md:p-10 flex flex-col items-center justify-center gap-4 sm:col-span-2 md:col-span-1">
+            <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-400"><Users size={28} /></div>
+            <div className="text-center">
+              <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tighter">1M<span className="text-blue-500">+</span></h1>
+              <p className="text-slate-400 font-medium mt-2">Total Posts</p>
             </div>
-
-            <h1 className="text-5xl font-medium text-center">1M+</h1>
-            <p className="text-gray-300 font-semibold text-lg">Total Posts</p>
           </div>
         </div>
       </section>
 
       {/* Features */}
       <section
-        className="mt-15 flex flex-col items-center justify-center mx-20"
+        className="py-16 md:py-20 bg-[#0F172A] flex flex-col items-center px-6"
         id="features">
-        <p className="text-lg text-blue-500">Our Features</p>
-        <h1 className="text-4xl">
-          Built for{" "}
-          <span className="text-blue-500">Meaningful Connections</span>
-        </h1>
-        <p className="text-gray-400 mt-2">
-          Powerful features designed to foster meaningful interactions and build
-          strong communities. <br />
-          Our platform provides everything you need to create and maintain
-          vibrant, engaged communities.
-        </p>
+        <div className="text-center max-w-3xl mb-12 md:mb-16">
+          <span className="px-4 py-1.5 text-sm font-medium text-blue-400 bg-blue-900/30 border border-blue-800 rounded-full">Features</span>
+          <h1 className="text-3xl md:text-5xl font-semibold text-white mt-6 tracking-tight">
+            Built for <span className="text-blue-500">Meaningful Connections</span>
+          </h1>
+          <p className="text-slate-400 mt-4 md:mt-6 text-base md:text-lg">
+            Powerful features designed to foster meaningful interactions and build strong communities.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center bg-[#1E293B] border border-gray-700 rounded-3xl p-6 shadow-md gap-2">
-              <div className="bg-[#2B4161] p-4 rounded-lg mb-4 text-blue-400">
-                {feature.icon}
+        <div className="max-w-7xl w-full space-y-6 md:space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {featuresTop.map((f, i) => (
+              <div key={i} className="group bg-[#1E293B] border border-slate-700 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden">
+                <div className="h-40 md:h-48 bg-slate-800 overflow-hidden">
+                  <img src={f.image} alt={f.title} className="w-full h-full object-cover opacity-80" />
+                </div>
+                <div className="p-6 md:p-8">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">{f.title}</h3>
+                  <p className="text-slate-400 leading-relaxed text-xs md:text-sm">{f.description}</p>
+                </div>
               </div>
-              <div className="text-left p-3">
-                <h3 className="text-xl font-medium py-1 text-white mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-400">{feature.description}</p>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {featuresBottom.map((f, i) => (
+              <div key={i} className="group bg-[#1E293B] border border-slate-700 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden">
+                <div className="h-56 md:h-64 bg-slate-800 overflow-hidden">
+                  <img src={f.image} alt={f.title} className="w-full h-full object-cover opacity-80" />
+                </div>
+                <div className="p-6 md:p-8">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{f.title}</h3>
+                  <p className="text-slate-400 leading-relaxed text-sm max-w-md">{f.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Dropdown Info ajg */}
-      <section className="mt-15 mx-50 flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-semibold">
+      <section className="mt-10 md:mt-15 mx-6 sm:mx-20 lg:mx-50 flex flex-col items-center justify-center">
+        <h1 className="text-2xl md:text-4xl font-semibold text-center leading-snug">
           Frequently Asked <span className="text-blue-500">Questions</span>.
         </h1>
 
-        <Accordion
-          type="single"
-          collapsible
-          defaultValue="item-1"
-          className="flex flex-col gap-5 mt-10">
+        <Accordion type="single" collapsible className="w-full flex flex-col gap-4 mt-8 md:mt-10">
           {faqs.map((faq, index) => (
-            <AccordionItem
-              key={faq.id}
-              value={`item-${index + 1}`}
-              className="bg-[#1E293B] border border-gray-700 rounded-2xl px-5 py-1 shadow-sm">
-              <AccordionTrigger className="text-left hover:no-underline">
-                {faq.question}
-              </AccordionTrigger>
-
-              <AccordionContent className="text-gray-400 pb-5">
-                {faq.answer}
-              </AccordionContent>
+            <AccordionItem key={faq.id} value={`item-${index + 1}`} className="bg-[#1E293B] border border-gray-700 rounded-2xl px-4 md:px-5">
+              <AccordionTrigger className="text-sm md:text-base text-left hover:no-underline">{faq.question}</AccordionTrigger>
+              <AccordionContent className="text-gray-400 pb-5 text-xs md:text-sm">{faq.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </section>
 
       {/* CTE bangsat*/}
-      <section className="mt-15 mx-30 flex flex-col items-center justify-center gap-10 bg-[#2B4161] p-10 py-30 rounded-3xl shadow border border-gray-700">
-        <h1 className="text-6xl text-white text-center">
-          Ready to build your Dream Community <br />
-          in Komune?
-        </h1>
-        <p className="text-white text-lg text-center w-3/4">
-          Join thousands of users who are already building meaningful
-          connections on our platform. Start creating and Sign Up Today. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Explicabo facilis
-          sit asperiores.
-        </p>
-        <div className="flex gap-5 mt-5">
-          <a
-            href=""
-            className="bg-white text-blue-500 rounded-full px-4 py-2 text-lg font-semibold hover:border-2 hover:border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300">
-            Log In
-          </a>
-          <a
-            href=""
-            className="rounded-full px-4 font-semibold py-2 text-lg text-white border-2 border-white hover:bg-white hover:text-blue-500 transition-all duration-300">
-            Sign Up
-          </a>
+      <section className="mt-20 md:mt-24 mx-4 md:mx-20 relative overflow-hidden" id="cta">
+        <div className="bg-[#1E293B] rounded-[2rem] md:rounded-[3rem] p-10 md:p-24 border border-slate-700/50 flex flex-col items-center justify-center gap-8 relative shadow-2xl">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+
+          <div className="relative z-5 flex flex-col items-center gap-6 text-center">
+            <h1 className="text-3xl md:text-6xl font-bold text-white tracking-tight leading-tight max-w-4xl">
+              Ready to build your <span className="text-blue-500">Dream Community</span> in Komune?
+            </h1>
+            <p className="text-slate-400 text-base md:text-xl max-w-2xl leading-relaxed">Join thousands of users who are already building meaningful connections.</p>
+            <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
+              <a href="#login" className="bg-blue-600 text-white rounded-full px-8 md:px-10 py-4 text-lg font-bold shadow-lg shadow-blue-500/20 text-center hover:scale-105 transition-all duration-200 ">Get Started Now</a>
+              <a href="#signup" className="bg-transparent text-white border-2 border-slate-700 rounded-full px-8 md:px-10 py-4 text-lg font-bold text-center hover:scale-105 transition-all duration-300">Sign Up</a>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-700 bg-[#0F172A] mt-15">
+      <footer className="border-t border-gray-700 bg-[#0F172A] mt-20">
         <div className="max-w-7xl mx-auto px-6 py-14">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            {/* Brand */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 text-center sm:text-left">
             <div className="space-y-5">
               <h2 className="text-3xl font-bold text-blue-600">Komune</h2>
-
-              <p className="text-gray-400 leading-relaxed">
-                Empowering communities to talk, share, and grow together in a
-                safe, modern, and high-performance digital space.
-              </p>
-
-              {/* Socials */}
-              <div className="flex items-center gap-3">
-                <a
-                  href="#"
-                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
-                  <Send size={18} />
-                </a>
-
-                <a
-                  href="#"
-                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
-                  <Bird size={18} />
-                </a>
-
-                <a
-                  href="#"
-                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
-                  <Video size={18} />
-                </a>
-
-                <a
-                  href="#"
-                  className="p-2 rounded-full bg-[#1E293B] hover:bg-blue-500 hover:text-white transition">
-                  <MessageSquare size={18} />
-                </a>
+              <p className="text-gray-400 text-sm leading-relaxed">Empowering communities to talk, share, and grow together in a modern digital space.</p>
+              <div className="flex items-center justify-center sm:justify-start gap-3">
+                <a href="#" className="p-2 rounded-full bg-[#1E293B] text-slate-300 hover:bg-blue-500 transition"><Send size={18} /></a>
+                <a href="#" className="p-2 rounded-full bg-[#1E293B] text-slate-300 hover:bg-blue-500 transition"><Bird size={18} /></a>
+                <a href="#" className="p-2 rounded-full bg-[#1E293B] text-slate-300 hover:bg-blue-500 transition"><Video size={18} /></a>
+                <a href="#" className="p-2 rounded-full bg-[#1E293B] text-slate-300 hover:bg-blue-500 transition"><MessageSquare size={18} /></a>
               </div>
             </div>
 
-            {/* Product */}
             <div>
-              <h3 className="text-sm font-semibold tracking-wider text-gray-900 uppercase mb-5">
-                Product
-              </h3>
-
-              <ul className="space-y-3 text-gray-500">
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Features
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Integrations
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Pricing
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Changelog
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    API Docs
-                  </a>
-                </li>
+              <h3 className="text-xs font-semibold tracking-wider text-slate-200 uppercase mb-5">Product</h3>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-blue-500">Features</a></li>
+                <li><a href="#" className="hover:text-blue-500">Integrations</a></li>
+                <li><a href="#" className="hover:text-blue-500">Pricing</a></li>
               </ul>
             </div>
 
-            {/* Resources */}
             <div>
-              <h3 className="text-sm font-semibold tracking-wider text-gray-900 uppercase mb-5">
-                Resources
-              </h3>
-
-              <ul className="space-y-3 text-gray-500">
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Help Center
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Global Feed
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Moderator Guide
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Community Forum
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Status Page
-                  </a>
-                </li>
+              <h3 className="text-xs font-semibold tracking-wider text-slate-200 uppercase mb-5">Resources</h3>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-blue-500">Help Center</a></li>
+                <li><a href="#" className="hover:text-blue-500">Global Feed</a></li>
+                <li><a href="#" className="hover:text-blue-500">Status Page</a></li>
               </ul>
             </div>
 
-            {/* Legal */}
             <div>
-              <h3 className="text-sm font-semibold tracking-wider text-gray-900 uppercase mb-5">
-                Legal
-              </h3>
-
-              <ul className="space-y-3 text-gray-500">
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Privacy Policy
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Terms of Service
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Cookie Policy
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    DPA
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" className="hover:text-blue-500 transition">
-                    Contact
-                  </a>
-                </li>
+              <h3 className="text-xs font-semibold tracking-wider text-slate-200 uppercase mb-5">Legal</h3>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-blue-500">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-blue-500">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-blue-500">Contact</a></li>
               </ul>
             </div>
           </div>
 
-          {/* Bottom */}
-          <div className="mt-14 pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-            <p>
-              © 2026 Komune Inc. Built with love for communities everywhere.
-            </p>
-
+          <div className="mt-14 pt-6 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500 text-center">
+            <p>© 2026 Komune Inc. Built with love for communities everywhere.</p>
             <div className="flex items-center gap-2">
-              <Globe size={16} />
+              <Globe size={14} />
               <span>English (US)</span>
             </div>
           </div>

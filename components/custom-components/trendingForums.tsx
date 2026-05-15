@@ -2,20 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { API_URL } from "@/lib/api";
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Heart, TrendingUp, MessageSquarePlus, Search } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { CreatePost } from "./createPost";
 
-interface Forum {
-  id: number;
-  name: string;
-  icon_image: string;
-  total_members: number;
-}
-
-export default function TrendingForums() {
+export default function TrendingPosts() {
   const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -29,68 +22,86 @@ export default function TrendingForums() {
             },
           }
         );
-
         const result = await response.json();
-
         setPosts(result.data || []);
       } catch (error) {
         console.error(error);
       }
     }
-
     fetchTrendingPosts();
   }, []);
 
   return (
-    <div className="flex flex-col gap-5 text-gray-200">
-      <Card className="rounded-3xl border-none shadow-sm bg-[#1E293B]">
-        <CardHeader>
-          <CardTitle className="text-xl text-gray-200">
-            Trending Posts
+    <div className="flex flex-col gap-6 text-gray-200">
+      {/* Trending Section */}
+      <Card className="rounded-[2rem] border border-slate-700/50 shadow-xl bg-[#1E293B] overflow-hidden">
+        <CardHeader className="border-b border-slate-700/50 pb-4">
+          <CardTitle className="text-xl text-white flex items-center gap-2">
+            <TrendingUp size={20} className="text-blue-500" />
+            Trending Now
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="flex flex-col gap-4">
-           {posts.map((post) => (
-        <div
-          key={post.id}
-          className="flex items-center justify-between "
-        >
-          <div>
-            <h1 className="font-semibold text-white">
-              {post.title}
-            </h1>
+        <CardContent className="flex flex-col p-0">
+          {posts.length > 0 ? (
+            posts.map((post, index) => (
+              <Link
+                key={post.id}
+                href={`/user/post/${post.id}`}
+                className={`flex items-center justify-between p-5 transition-all hover:bg-slate-800/50 group ${
+                  index !== posts.length - 1 ? "border-b border-slate-700/30" : ""
+                }`}
+              >
+                <div className="flex flex-col gap-1">
+                  <h1 className="font-medium text-white group-hover:text-blue-400 transition-colors line-clamp-1">
+                    {post.title}
+                  </h1>
+                  <div className="flex items-center gap-3">
+                    <p className="text-xs flex items-center gap-1.5 text-slate-400">
+                      <Heart size={14} className="text-red-500 fill-red-500/20" /> 
+                      {post.total_likes.toLocaleString()} likes
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-blue-600/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/20">
+                  Read
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p className="p-10 text-center text-slate-500 text-sm italic">No trending posts today.</p>
+          )}
+        </CardContent>
+      </Card>
 
-            <p className="text-sm flex items-center gap-2 text-gray-400">
-              <Heart size={20} className="text-red-500"></Heart> {post.total_likes} likes
+     
+      <Card className="relative p-8 rounded-[2rem] bg-linear-to-br from-blue-600 to-indigo-700 text-white border-none shadow-2xl overflow-hidden group">
+        
+        <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all" />
+        
+        <div className="relative z-10 space-y-6">
+          <div className="space-y-2">
+            <h3 className="text-2xl font-bold tracking-tight">Share Your Thoughts</h3>
+            <p className="text-blue-100 text-sm leading-relaxed">
+              Have something interesting to say? Start a conversation and connect with others.
             </p>
           </div>
 
-          <Link
-            href={`/user/post/${post.id}`}
-            className="bg-blue-500 px-3 py-2 rounded-lg text-white text-sm"
-          >
-            View
-          </Link>
+          <div className="flex flex-col gap-3">
+            <Button asChild className="w-full bg-white text-blue-600 hover:bg-blue-50 font-bold rounded-xl py-6 transition-transform active:scale-95">
+              <CreatePost></CreatePost>
+            </Button>
+            
+            <Link
+              href="/explore"
+              className="flex items-center justify-center gap-2 text-sm font-semibold text-white/80 hover:text-white transition-colors"
+            >
+              <Search size={16} />
+              Explore More
+            </Link>
+          </div>
         </div>
-      ))}
-        </CardContent>
-      </Card>
-      <Card className="p-5 rounded-2xl bg-linear-to-t from-sky-700 to-indigo-700 text-white">
-        <CardTitle className="text-lg">
-          See an Innapropriate Posts? <br /><span className="font-semibold">Report it!</span> 
-        </CardTitle>
-
-        <CardContent className="flex justify-around gap-5">
-          <Button className="bg-white text-blue-500 hover:scale-105 transition-all duration-200 hover:bg-blue-300 hover:text-blue-800">
-            Create one
-          </Button>
-          <Link
-            href=""
-            className="border-white border-3 rounded-lg px-2 py-1 hover:scale-105 transition-all duration-200 hover:bg-white hover:text-blue-500">
-            Find one
-          </Link>
-        </CardContent>
       </Card>
     </div>
   );
