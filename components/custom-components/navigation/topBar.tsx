@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NotificationBell } from "./notification";
-import SearchBar from "./SearchBar";
+import { NotificationBell } from "../dropdowns/notification";
+import SearchBar from "../others/SearchBar";
 import { User, UserCircle } from "lucide-react";
 import { API_URL } from "@/lib/api";
 
@@ -30,7 +30,7 @@ export default function TopBar() {
   }, []);
 
   return (
-    <div className="flex p-6 w-full h-25 bg-[#0F172A] shadow-sm justify-between px-8">
+    <div className="flex p-6 w-full h-23 bg-[#0F172A] shadow-sm justify-between px-8">
       <SearchBar />
       <div className="flex items-center gap-10">
         <NotificationBell></NotificationBell>

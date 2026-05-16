@@ -13,8 +13,8 @@ import { API_URL } from "@/lib/api";
 import { MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import CommentItem from "./commentItem";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { jwtDecode } from "jwt-decode"; // 1. Import ini
 
 type Comment = {

@@ -23,8 +23,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import CommentSheet from "./commentsSheet";
-import { DropdownReport } from "./postDropdown"; // Pastikan dropdown diimport
+import CommentSheet from "../comments/commentsSheet";
+import { DropdownReport } from "../dropdowns/postDropdown"; // Pastikan dropdown diimport
 import { Badge } from "@/components/ui/badge"; // Pastikan badge diimport
 
 interface Post {

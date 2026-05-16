@@ -207,7 +207,7 @@ export function UpdatePost({ postId }: UpdatePostProps) {
                     value: e.target.value,
                   })
                 }
-                className="bg-[#0F172A] border-gray-700 text-white min-h-[100px] resize-none focus-visible:ring-blue-500 text-sm"
+                className="bg-[#0F172A] border-gray-700 text-white min-h-20 resize-none focus-visible:ring-blue-500 text-sm"
               />
             </div>
 
@@ -228,7 +228,7 @@ export function UpdatePost({ postId }: UpdatePostProps) {
                   ))}
                 </div>
                 <div className="flex items-start gap-2 mt-1 text-amber-400">
-                  <Info size={14} className="mt-0.5 flex-shrink-0" />
+                  <Info size={14} className="mt-0.5 shrink-0" />
                   <p className="text-[11px] leading-relaxed italic">
                     * Gambar tidak dapat diubah. Jika ingin mengganti gambar,
                     harap hapus postingan ini dan buat postingan baru.

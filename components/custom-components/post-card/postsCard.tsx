@@ -25,9 +25,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import CommentSheet from "./commentsSheet";
-import { DropdownReport } from "./postDropdown";
-import { Badge } from "../ui/badge";
+import CommentSheet from "../comments/commentsSheet";
+import { DropdownReport } from "../dropdowns/postDropdown";
+import { Badge } from "../../ui/badge";
 
 interface Post {
   id: number;

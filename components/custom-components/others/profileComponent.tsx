@@ -160,7 +160,7 @@ export default function ProfilePage() {
     <div className="w-full max-w-5xl mx-auto px-4 pb-10">
       <div className="bg-[#1E293B] rounded-[2rem] overflow-hidden border border-slate-800 shadow-2xl">
         {/* COVER BANNER */}
-        <div className="h-32 sm:h-44 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 relative" />
+        <div className="h-32 sm:h-44 bg-linear-to-r from-blue-600 via-indigo-600 to-violet-600 relative" />
 
         <div className="px-6 sm:px-10 pb-10">
           {/* HEADER SECTION (Avatar & Info) */}
@@ -168,19 +168,22 @@ export default function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-5">
               {/* AVATAR BOX */}
               <div className="relative group">
-                <div className="h-32 w-32 sm:h-40 sm:w-40 rounded-full border-[6px] border-[#1E293B] overflow-hidden bg-[#0F172A] shadow-2xl">
-                  <img
-                    src={
-                      previewAvatar ||
-                      (formData.avatar
-                        ? `${API_URL}/uploads/users/${formData.avatar}`
-                        : "")
-                    }
-                    alt="Profile"
-                    className={`h-full w-full object-cover ${!previewAvatar && !formData.avatar ? "hidden" : "block"}`}
-                    onError={(e) => (e.currentTarget.style.display = "none")}
-                  />
-                  {!previewAvatar && !formData.avatar && (
+                <div className="h-32 w-32 sm:h-40 sm:w-40 rounded-full border-[6px] border-[#1E293B] overflow-hidden bg-[#0F172A] shadow-2xl flex items-center justify-center">
+                  {/* Render IMG hanya jika ada sumbernya */}
+                  {previewAvatar || formData.avatar ? (
+                    <img
+                      src={
+                        previewAvatar ||
+                        `${API_URL}/uploads/users/${formData.avatar}`
+                      }
+                      alt="Profile"
+                      className="h-full w-full object-cover block"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    /* Tampilkan Icon User jika tidak ada foto */
                     <div className="h-full w-full flex items-center justify-center text-slate-500 bg-slate-900">
                       <User size={60} />
                     </div>
@@ -289,7 +292,7 @@ export default function ProfilePage() {
                         value: e.target.value,
                       })
                     }
-                    className="bg-slate-900/50 border-slate-700 text-white min-h-[120px] resize-none disabled:border-transparent disabled:bg-transparent disabled:px-0 disabled:opacity-100 transition-all"
+                    className="bg-slate-900/50 border-slate-700 text-white min-h-30 resize-none disabled:border-transparent disabled:bg-transparent disabled:px-0 disabled:opacity-100 transition-all"
                   />
                 </div>
               </div>

@@ -12,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import { DialogReport } from "./dialogReport";
-import { DeleteAlertDialog } from "./deleteAlertDialog";
-import { UpdatePost } from "./updatePosts";
+import { DialogReport } from "../modal-user/dialogReport";
+import { DeleteAlertDialog } from "../modal-user/deleteAlertDialog";
+import { UpdatePost } from "../modal-user/updatePosts";
 
 interface DecodedToken {
   id: number;
@@ -65,7 +65,9 @@ export function DropdownReport({
               <div className="cursor-pointer focus:bg-slate-800 focus:text-white flex gap-2 px-2 py-1 hover:bg-slate-700 rounded-lg">
                 <UpdatePost postId={postId}></UpdatePost>
               </div>
-              <DropdownMenuItem onSelect={(e: any) => e.preventDefault()} className="cursor-pointer focus:bg-red-600 focus:text-white flex gap-2 text-red-400">
+              <DropdownMenuItem
+                onSelect={(e: any) => e.preventDefault()}
+                className="cursor-pointer focus:bg-red-600 focus:text-white flex gap-2 text-red-400">
                 <DeleteAlertDialog postId={postId}></DeleteAlertDialog>
               </DropdownMenuItem>
             </>

@@ -257,7 +257,7 @@ export function CreatePost() {
                   value: e.target.value,
                 })
               }
-              className="bg-[#0F172A] border-gray-700 text-white placeholder:text-gray-500 min-h-[100px] resize-none focus-visible:ring-blue-500 text-sm"
+              className="bg-[#0F172A] border-gray-700 text-white placeholder:text-gray-500 min-h-25 resize-none focus-visible:ring-blue-500 text-sm"
             />
           </div>
 

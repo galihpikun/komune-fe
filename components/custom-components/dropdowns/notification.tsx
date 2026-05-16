@@ -12,8 +12,8 @@ import { API_URL } from "@/lib/api";
 import { Bell, Loader, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import { Button } from "../../ui/button";
+import { Badge } from "../../ui/badge";
 import Link from "next/link";
 
 interface Notif {
