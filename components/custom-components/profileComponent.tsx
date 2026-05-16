@@ -36,7 +36,13 @@ export default function ProfilePage() {
     bio: "", // Bio ditambahkan
   });
 
-  function handleInputChanges({ name, value }: { name: string; value: string }) {
+  function handleInputChanges({
+    name,
+    value,
+  }: {
+    name: string;
+    value: string;
+  }) {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -164,7 +170,12 @@ export default function ProfilePage() {
               <div className="relative group">
                 <div className="h-32 w-32 sm:h-40 sm:w-40 rounded-full border-[6px] border-[#1E293B] overflow-hidden bg-[#0F172A] shadow-2xl">
                   <img
-                    src={previewAvatar || (formData.avatar ? `${API_URL}/uploads/users/${formData.avatar}` : "")}
+                    src={
+                      previewAvatar ||
+                      (formData.avatar
+                        ? `${API_URL}/uploads/users/${formData.avatar}`
+                        : "")
+                    }
                     alt="Profile"
                     className={`h-full w-full object-cover ${!previewAvatar && !formData.avatar ? "hidden" : "block"}`}
                     onError={(e) => (e.currentTarget.style.display = "none")}
@@ -181,23 +192,37 @@ export default function ProfilePage() {
                 <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                   {formData.username}
                 </h1>
-                <p className="text-blue-400 font-medium text-sm">Community Member</p>
+                <p className="text-blue-400 font-medium text-sm">
+                  Community Member
+                </p>
               </div>
             </div>
 
             {/* ACTION BUTTONS */}
             <div className="flex justify-center gap-3">
               {!isEditing ? (
-                <Button onClick={() => setIsEditing(true)} className="bg-blue-600 hover:bg-blue-700 rounded-xl px-6">
+                <Button
+                  onClick={() => setIsEditing(true)}
+                  className="bg-blue-600 hover:bg-blue-700 rounded-xl px-6">
                   <Edit2 size={16} className="mr-2" /> Edit Profile
                 </Button>
               ) : (
                 <>
-                  <Button variant="ghost" onClick={() => setIsEditing(false)} className="text-slate-400 hover:text-white">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setIsEditing(false)}
+                    className="text-slate-400 hover:text-white">
                     Cancel
                   </Button>
-                  <Button onClick={handleSave} disabled={saving} className="bg-emerald-600 hover:bg-emerald-700 rounded-xl px-6">
-                    {saving ? <Loader2 className="animate-spin mr-2" size={16} /> : <Save size={16} className="mr-2" />}
+                  <Button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="bg-emerald-600 hover:bg-emerald-700 rounded-xl px-6">
+                    {saving ? (
+                      <Loader2 className="animate-spin mr-2" size={16} />
+                    ) : (
+                      <Save size={16} className="mr-2" />
+                    )}
                     Save Changes
                   </Button>
                 </>
@@ -207,44 +232,63 @@ export default function ProfilePage() {
 
           {/* MAIN CONTENT GRID */}
           <div className="grid lg:grid-cols-12 gap-8 mt-12">
-            
             {/* LEFT COLUMN: FORM */}
             <div className="lg:col-span-8 flex flex-col gap-6">
               <div className="bg-[#0F172A]/50 rounded-3xl p-6 sm:p-8 border border-slate-800/50 space-y-6">
-                
                 {/* USERNAME */}
                 <div className="space-y-3">
-                  <Label className="text-slate-500 flex items-center gap-2"><User size={14}/> Username</Label>
+                  <Label className="text-slate-500 flex items-center gap-2">
+                    <User size={14} /> Username
+                  </Label>
                   <Input
                     disabled={!isEditing}
                     name="username"
                     value={formData.username}
-                    onChange={(e) => handleInputChanges({ name: e.target.name, value: e.target.value })}
+                    onChange={(e) =>
+                      handleInputChanges({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    }
                     className="bg-slate-900/50 border-slate-700 text-white disabled:border-transparent disabled:bg-transparent disabled:px-0 disabled:text-xl font-semibold transition-all"
                   />
                 </div>
 
                 {/* EMAIL */}
                 <div className="space-y-3">
-                  <Label className="text-slate-500 flex items-center gap-2"><Mail size={14}/> Email Address</Label>
+                  <Label className="text-slate-500 flex items-center gap-2">
+                    <Mail size={14} /> Email Address
+                  </Label>
                   <Input
                     disabled={!isEditing}
                     name="email"
                     value={formData.email}
-                    onChange={(e) => handleInputChanges({ name: e.target.name, value: e.target.value })}
+                    onChange={(e) =>
+                      handleInputChanges({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    }
                     className="bg-slate-900/50 border-slate-700 text-white disabled:border-transparent disabled:bg-transparent disabled:px-0 transition-all"
                   />
                 </div>
 
                 {/* BIO */}
                 <div className="space-y-3">
-                  <Label className="text-slate-500 flex items-center gap-2"><Info size={14}/> Bio</Label>
+                  <Label className="text-slate-500 flex items-center gap-2">
+                    <Info size={14} /> Bio
+                  </Label>
                   <Textarea
                     disabled={!isEditing}
                     name="bio"
                     placeholder="Tell us about yourself..."
                     value={formData.bio}
-                    onChange={(e) => handleInputChanges({ name: e.target.name, value: e.target.value })}
+                    onChange={(e) =>
+                      handleInputChanges({
+                        name: e.target.name,
+                        value: e.target.value,
+                      })
+                    }
                     className="bg-slate-900/50 border-slate-700 text-white min-h-[120px] resize-none disabled:border-transparent disabled:bg-transparent disabled:px-0 disabled:opacity-100 transition-all"
                   />
                 </div>
@@ -253,15 +297,19 @@ export default function ProfilePage() {
 
             {/* RIGHT COLUMN: UPLOAD & LOGOUT */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              
               {/* UPLOAD AVATAR CARD */}
               <div className="bg-[#0F172A]/50 rounded-3xl p-6 border border-slate-800/50">
                 <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                  <Camera size={18} className="text-blue-400"/> Change Photo
+                  <Camera size={18} className="text-blue-400" /> Change Photo
                 </h3>
                 <label className="group border-2 border-dashed border-slate-800 hover:border-blue-500/50 transition-all rounded-2xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer bg-slate-900/30">
-                  <Camera size={32} className="text-slate-600 group-hover:text-blue-400 transition-colors" />
-                  <p className="text-xs text-slate-500 text-center font-medium">PNG, JPG up to 5MB</p>
+                  <Camera
+                    size={32}
+                    className="text-slate-600 group-hover:text-blue-400 transition-colors"
+                  />
+                  <p className="text-xs text-slate-500 text-center font-medium">
+                    PNG, JPG up to 5MB
+                  </p>
                   <input
                     type="file"
                     accept="image/*"
@@ -277,8 +325,13 @@ export default function ProfilePage() {
                 </label>
 
                 {selectedAvatar && (
-                  <Button onClick={handleAvatarUpload} disabled={uploadingAvatar} className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
-                    {uploadingAvatar ? <Loader2 className="animate-spin mr-2" size={16} /> : null}
+                  <Button
+                    onClick={handleAvatarUpload}
+                    disabled={uploadingAvatar}
+                    className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
+                    {uploadingAvatar ? (
+                      <Loader2 className="animate-spin mr-2" size={16} />
+                    ) : null}
                     Confirm Upload
                   </Button>
                 )}
@@ -295,12 +348,10 @@ export default function ProfilePage() {
               <Button
                 variant="ghost"
                 onClick={handleLogout}
-                className="w-full py-6 rounded-2xl border border-red-500/10 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all font-bold mt-auto"
-              >
+                className="w-full py-6 rounded-2xl border border-red-500/10 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all font-bold mt-auto">
                 <LogOut size={18} className="mr-2" /> Logout Account
               </Button>
             </div>
-
           </div>
         </div>
       </div>
@@ -311,7 +362,9 @@ export default function ProfilePage() {
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-[#0F172A]/50 border border-slate-800 rounded-2xl p-4 text-center">
-      <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{label}</p>
+      <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
+        {label}
+      </p>
       <p className="text-xl font-black text-white mt-1">{value}</p>
     </div>
   );

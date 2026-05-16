@@ -13,10 +13,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea"; // Pastikan sudah install: npx shadcn-ui@latest add textarea
+import { Textarea } from "@/components/ui/textarea";
 import { FileWarning, Loader2 } from "lucide-react";
 import { API_URL } from "@/lib/api";
-import { toast } from "sonner"; // Atau library toast pilihanmu
+import { toast } from "sonner";
 
 export function DialogReport({ postId }: { postId: number }) {
   const [reason, setReason] = useState("");
@@ -62,7 +62,7 @@ export function DialogReport({ postId }: { postId: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="flex items-center gap-2 w-full px-2 py-1.5 cursor-pointer hover:bg-slate-800 rounded-sm text-sm transition-colors">
+        <div className="flex items-center gap-2 w-full">
           <FileWarning size={16} className="text-yellow-500" />
           <span>Report Post</span>
         </div>

@@ -111,11 +111,9 @@ export default function PostsCard() {
               {/* AVATAR */}
               <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-600 flex items-center justify-center text-white font-bold shrink-0">
                 {post.avatar ? (
-                  <Image
-                    src={post.avatar}
+                  <img
+                    src={`${API_URL}/uploads/users/${post.avatar}`}
                     alt={post.username}
-                    width={48}
-                    height={48}
                     className="object-cover w-full h-full"
                   />
                 ) : (
