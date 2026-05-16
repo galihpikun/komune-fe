@@ -1,19 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
   ClipboardCheck,
   ShieldAlert,
   LogOut,
+  HardHat
 } from "lucide-react";
 import { API_URL } from "@/lib/api";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 
 export default function AdminSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [role, setRole] = useState<string | null>(null);
 
@@ -35,6 +37,23 @@ export default function AdminSidebar() {
     }
   };
 
+  async function logout() {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/logout`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        toast.success("Berhasil logout, anda di direct ke homepage!")
+        router.push("/")
+      }
+    } catch (error) {
+      toast.error("Failed to load profile, please relog");
+    }
+  };
+
   useEffect(()=> {
     getMe();
   },[])
@@ -43,7 +62,9 @@ export default function AdminSidebar() {
   const mainItems = [
     { title: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { title: "posts Moderation", href: "/admin/posts", icon: ClipboardCheck },
+    { title: "Reports Work", href: "/admin/reports", icon: HardHat },
     { title: "Content Reports", href: "/admin/moderation", icon: ShieldAlert },
+    
   ];
 
   // cuman super admin yang boleh, admin ga boleh
@@ -107,7 +128,7 @@ export default function AdminSidebar() {
           <Users size={18} />
           <span>User Page</span>
         </Link>
-        <button className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full">
+        <button onClick={logout} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full">
           <LogOut size={18} />
           <span>Sign Out</span>
         </button>
