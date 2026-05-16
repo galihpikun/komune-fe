@@ -26,17 +26,12 @@ const menuItems = [
     href: "/user/user-posts",
     icon:FileUser
   },
-  {
-    title: "Moderation Queue",
-    href: "/moderation",
-    icon: ShieldAlert,
-  },
 ];
 
 const bottomItems = [
   {
     title: "Settings",
-    href: "/settings",
+    href: "/user/settings",
     icon: Settings,
   },
   {

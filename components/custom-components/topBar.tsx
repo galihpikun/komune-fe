@@ -42,7 +42,7 @@ export default function TopBar () {
       <div className="h-10 w-10 rounded-full overflow-hidden border border-slate-700 bg-slate-800">
         {user.avatar ? (
           <img 
-            src={`${API_URL}/uploads/avatars/${user.avatar}`} 
+            src={`${API_URL}/uploads/users/${user.avatar}`} 
             className="h-full w-full object-cover"
             alt="Profile"
           />
