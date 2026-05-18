@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 import { API_URL } from "@/lib/api";
 
 export function LoginForm({
@@ -75,11 +76,22 @@ export function LoginForm({
         return;
       }
 
+      const role = data.data.user.role;
+
       toast.success("Berhasil Login Akun!", {
         position: "top-center",
       });
+
       resetForm();
-      router.push("/user/home");
+
+      Cookies.set("token", data.data.token, { expires: 1 }); // 1 hari
+      Cookies.set("role", role, { expires: 1 });
+
+      if (role === "admin" || role === "super_admin") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/user/home");
+      }
     } catch (error) {
       toast.error("Failed to login, Please try again!", {
         position: "top-center",
