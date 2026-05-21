@@ -14,6 +14,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { API_URL } from "@/lib/api";
 
 type Comment = {
   id: number;
@@ -52,119 +53,170 @@ export default function CommentItem({
   const isOwner =
     currentUserId !== null && Number(currentUserId) === Number(comment.user_id);
 
-  return (
-    <div className="space-y-2">
-      {/* Container utama komen menggunakan 2B4161 (extra bright card) */}
-      <div className="flex gap-3 p-3 rounded-xl bg-[#2B4161] text-white">
-        <div className="w-7 h-7 rounded-full bg-blue-400 flex items-center justify-center text-xs font-bold overflow-hidden shrink-0">
-          {comment.avatar ? (
-            <img
-              src={comment.avatar}
-              className="w-full h-full object-cover"
-              alt="avatar"
-            />
-          ) : (
-            comment.username[0].toUpperCase()
-          )}
+  // COMMENT ITEM REDESIGN
+
+return (
+  <div className="space-y-3">
+    <div className="group relative overflow-hidden rounded-3xl border border-[#1E293B] bg-[#111827]/95 p-4 transition-all duration-300 hover:border-[#2B4161] hover:bg-[#131c2f]">
+      {/* subtle glow */}
+      <div className="absolute right-[-40px] top-[-40px] h-24 w-24 rounded-full bg-blue-500/5 blur-2xl transition-all duration-300 group-hover:bg-blue-500/10" />
+
+      <div className="relative flex gap-4">
+        {/* Avatar */}
+        <div className="shrink-0">
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-[#2B4161] bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-bold text-white shadow-lg">
+            {comment.avatar ? (
+              <img
+                src={`${API_URL}/uploads/users/${comment.avatar}`}
+                className="h-full w-full object-cover"
+                alt="avatar"
+              />
+            ) : (
+              comment.username[0].toUpperCase()
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col w-full">
-          <span className="text-sm font-semibold">{comment.username}</span>
-          <p className="text-sm text-gray-100">{comment.content}</p>
+        {/* Content */}
+        <div className="flex w-full flex-col">
+          {/* Top */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-semibold text-white">
+                {comment.username}
+              </h2>
 
-          <div className="flex gap-3 mt-2 text-xs text-gray-300">
+              <p className="mt-0.5 text-xs text-gray-500">
+                Community Member
+              </p>
+            </div>
+
+          
+          </div>
+
+          {/* Text */}
+          <div className="mt-3">
+            <p className="text-sm leading-7 text-gray-200">
+              {comment.content}
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="mt-4 flex items-center gap-5 text-xs">
+            {/* Reply */}
             <Dialog>
               <DialogTrigger asChild>
-                <button className="hover:underline">Reply</button>
+                <button className="font-medium text-gray-400 transition hover:text-blue-400">
+                  Reply
+                </button>
               </DialogTrigger>
 
-              <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
+              <DialogContent className="border border-[#1E293B] bg-[#0A0F1E] text-white">
                 <DialogHeader>
-                  <DialogTitle className="text-white">
-                    Reply comment
+                  <DialogTitle className="text-xl text-white">
+                    Reply Comment
                   </DialogTitle>
-                  <DialogDescription>
-                    Reply to the comments you desire to start a discussion.
+
+                  <DialogDescription className="text-gray-400">
+                    Continue the discussion respectfully.
                   </DialogDescription>
                 </DialogHeader>
+
                 <Input
-                  className="bg-[#1E293B] border-gray-600 text-white focus:ring-blue-500"
+                  className="mt-3 h-12 rounded-xl border-[#1E293B] bg-[#111827] text-white focus-visible:ring-blue-500"
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Write reply..."
+                  placeholder="Write your reply..."
                 />
+
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button
-                      className="bg-blue-600 hover:bg-blue-700"
+                      className="rounded-xl bg-blue-600 hover:bg-blue-700"
                       onClick={() => {
                         if (!replyText.trim()) return;
                         onReply(comment.id, replyText);
                         setReplyText("");
-                      }}>
-                      Send
+                      }}
+                    >
+                      Send Reply
                     </Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
 
+            {/* Owner Actions */}
             {isOwner && (
               <>
+                {/* Edit */}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button className="hover:underline">Edit</button>
+                    <button className="font-medium text-gray-400 transition hover:text-yellow-400">
+                      Edit
+                    </button>
                   </DialogTrigger>
-                  <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
+
+                  <DialogContent className="border border-[#1E293B] bg-[#0A0F1E] text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">
-                        Edit comment
+                      <DialogTitle className="text-xl text-white">
+                        Edit Comment
                       </DialogTitle>
-                      <DialogDescription>
-                        Change the mistakes of your lorem ipsum.
+
+                      <DialogDescription className="text-gray-400">
+                        Update your comment content.
                       </DialogDescription>
                     </DialogHeader>
+
                     <Input
-                      className="bg-[#1E293B] border-gray-600 text-white focus:ring-blue-500"
+                      className="mt-3 h-12 rounded-xl border-[#1E293B] bg-[#111827] text-white focus-visible:ring-blue-500"
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
                     />
+
                     <DialogFooter>
                       <DialogClose asChild>
                         <Button
-                          className="bg-blue-600 hover:bg-blue-700"
+                          className="rounded-xl bg-blue-600 hover:bg-blue-700"
                           onClick={() => {
                             if (!editText.trim()) return;
                             onUpdate(comment.id, editText);
-                          }}>
-                          Save
+                          }}
+                        >
+                          Save Changes
                         </Button>
                       </DialogClose>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
 
+                {/* Delete */}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button className="text-red-400 hover:underline">
+                    <button className="font-medium text-red-400 transition hover:text-red-300">
                       Delete
                     </button>
                   </DialogTrigger>
-                  <DialogContent className="bg-[#0F172A] border-gray-700 text-white">
+
+                  <DialogContent className="border border-[#1E293B] bg-[#0A0F1E] text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">
-                        Delete this comment?
+                      <DialogTitle className="text-xl text-white">
+                        Delete Comment?
                       </DialogTitle>
                     </DialogHeader>
-                    <DialogDescription className="text-gray-400 text-sm">
-                      Action cannot be undone.
+
+                    <DialogDescription className="text-gray-400">
+                      This action cannot be undone.
                     </DialogDescription>
+
                     <DialogFooter>
                       <DialogClose asChild>
                         <Button
                           variant="destructive"
-                          onClick={() => onDelete(comment.id)}>
-                          Yes delete
+                          onClick={() => onDelete(comment.id)}
+                          className="rounded-xl"
+                        >
+                          Yes, Delete
                         </Button>
                       </DialogClose>
                     </DialogFooter>
@@ -175,30 +227,30 @@ export default function CommentItem({
           </div>
         </div>
       </div>
-
-      {/* REPLIES (Recursive) */}
-      {/* REPLIES */}
-      {comment.replies.length > 0 && (
-  <div
-    className={`mt-2 space-y-2 ${
-      level === 0
-        ? "ml-10 border-l border-gray-600 pl-4"
-        : ""
-    }`}
-  >
-    {comment.replies.map((reply) => (
-      <CommentItem
-        key={reply.id}
-        comment={reply}
-        onReply={onReply}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
-        currentUserId={currentUserId}
-        level={level + 1}
-      />
-    ))}
-  </div>
-)}
     </div>
-  );
+
+    {/* Replies */}
+    {comment.replies.length > 0 && (
+      <div
+        className={`space-y-3 ${
+          level === 0
+            ? "ml-8 border-l border-[#1E293B] pl-5"
+            : "ml-5 border-l border-[#172033] pl-4"
+        }`}
+      >
+        {comment.replies.map((reply) => (
+          <CommentItem
+            key={reply.id}
+            comment={reply}
+            onReply={onReply}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+            currentUserId={currentUserId}
+            level={level + 1}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+);
 }

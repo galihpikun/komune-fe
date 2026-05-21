@@ -47,6 +47,7 @@ export default function AdminSidebar() {
 
       if (response.ok) {
         toast.success("Berhasil logout, anda di direct ke homepage!")
+        localStorage.removeItem('token');
         router.push("/")
       }
     } catch (error) {

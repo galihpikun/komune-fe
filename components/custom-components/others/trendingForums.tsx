@@ -32,7 +32,7 @@ export default function TrendingPosts() {
     <div className="flex flex-col gap-6 text-gray-200">
       {/* Trending Section */}
       <Card className="rounded-[2rem] border border-slate-700/50 shadow-xl bg-[#1E293B] overflow-hidden">
-        <CardHeader className="border-b border-slate-700/50 pb-4">
+        <CardHeader className="border-b border-slate-700/50 pb-2">
           <CardTitle className="text-xl text-white flex items-center gap-2">
             <TrendingUp size={20} className="text-blue-500" />
             Trending Now
@@ -45,7 +45,7 @@ export default function TrendingPosts() {
               <Link
                 key={post.id}
                 href={`/user/post/${post.id}`}
-                className={`flex items-center justify-between p-5 transition-all hover:bg-slate-800/50 group ${
+                className={`flex items-center justify-between px-5 py-3  transition-all hover:bg-slate-800/50 group ${
                   index !== posts.length - 1
                     ? "border-b border-slate-700/30"
                     : ""

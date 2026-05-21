@@ -11,38 +11,71 @@ import {
   CircleHelp,
   Plus,
   FileUser,
+  Shield,
 } from "lucide-react";
-import { title } from "process";
 import { CreatePost } from "../modal-user/createPost";
-
-const menuItems = [
-  {
-    title: "Home",
-    href: "/user/home",
-    icon: Home,
-  },
-  {
-    title: "Your Posts",
-    href: "/user/user-posts",
-    icon: FileUser,
-  },
-];
-
-const bottomItems = [
-  {
-    title: "Settings",
-    href: "/user/settings",
-    icon: Settings,
-  },
-  {
-    title: "Help",
-    href: "/help",
-    icon: CircleHelp,
-  },
-];
+import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const [role, setRole] = useState<string | null>(null);
+
+  const menuItems = [
+    {
+      title: "Home",
+      href: "/user/home",
+      icon: Home,
+    },
+    {
+      title: "Your Posts",
+      href: "/user/user-posts",
+      icon: FileUser,
+    },
+     ...(role === "admin" || role === "super_admin"
+      ? [
+          {
+            title: "Admin Page",
+            href: "/admin/dashboard",
+            icon: Shield,
+          },
+        ]
+      : []),
+  ];
+
+  const bottomItems = [
+    {
+      title: "Settings",
+      href: "/user/settings",
+      icon: Settings,
+    },
+    {
+      title: "Help",
+      href: "/help",
+      icon: CircleHelp,
+    },
+   
+  ];
+
+  async function getMe() {
+    try {
+      const response = await fetch(`${API_URL}/api/users/get-me`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setRole(result.data.role);
+      }
+    } catch (error) {
+      toast.error("Failed to load profile, please relog");
+    }
+  }
+  useEffect(()=> {
+    getMe();
+  }, []);
 
   return (
     <aside className="w-85 h-screen bg-[#0F172A] border-r border-gray-700 flex flex-col justify-between px-5 py-6">

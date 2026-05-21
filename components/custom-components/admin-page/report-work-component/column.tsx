@@ -35,11 +35,23 @@ export const columns = (onRefresh: () => void): ColumnDef<ReportWork>[] => [
       return (
         <div className="flex items-center gap-3">
           <div className="h-10 w-14 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 flex-shrink-0">
+            {item.thumbnail ? (
             <img 
               src={`${API_URL}/uploads/posts/${item.thumbnail}`} 
               className="w-full h-full object-cover"
               alt="thumb"
+              // Handler jika path gambar salah/404
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://placehold.co/600x400/1e293b/475569?text=No+Image";
+              }}
             />
+          ) : (
+            /* Tampilan jika memang dari database tidak ada gambar */
+            <div className="flex flex-col items-center justify-center">
+               <Eye size={14} className="text-slate-600" />
+               <span className="text-[8px] text-slate-600 font-bold">NO IMG</span>
+            </div>
+          )}
           </div>
           <div className="flex flex-col">
             <span className="font-medium text-white line-clamp-1">{item.title}</span>

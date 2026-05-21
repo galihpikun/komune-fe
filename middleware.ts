@@ -25,12 +25,6 @@ export function middleware(request: NextRequest) {
   }
 
   // 4. Redirect jika sudah login tapi mencoba akses Login/Signup
-  if (token && (pathname === '/login' || pathname === '/signup')) {
-    if (role === 'admin' || role === 'super_admin') {
-      return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-    }
-    return NextResponse.redirect(new URL('/user/home', request.url));
-  }
 
   return NextResponse.next();
 }

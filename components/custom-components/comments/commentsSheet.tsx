@@ -157,55 +157,97 @@ export default function CommentSheet({
   }
 
   return (
-    <Sheet>
-      <SheetTrigger className="flex items-center gap-2 text-gray-300 hover:opacity-80">
-        <MessageSquare size={18} />
-        <span className="text-sm font-medium">{totalComments}</span>
-      </SheetTrigger>
+  <Sheet>
+    <SheetTrigger className="group flex items-center gap-2 rounded-full border border-[#2B4161] bg-[#111827]/80 px-4 py-2 text-gray-300 transition-all duration-300 hover:border-blue-500 hover:bg-[#1E293B] hover:text-white">
+      <MessageSquare
+        size={17}
+        className="transition-transform duration-300 group-hover:scale-110"
+      />
+      <span className="text-sm font-semibold">{totalComments}</span>
+    </SheetTrigger>
 
-      <SheetContent className="bg-[#1E293B] text-gray-100 border-0 flex flex-col">
-        <SheetHeader>
-          <SheetTitle className="text-gray-100">
-            Comments ({totalComments})
-          </SheetTitle>
-          <SheetDescription className="text-gray-200">
-            Please be respectful in the discussion.
-          </SheetDescription>
-        </SheetHeader>
+    <SheetContent className="border-l border-[#1E293B] bg-[#0A0F1E] p-0 text-white sm:max-w-xl">
+      {/* Top Glow */}
+      <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-blue-500/10 blur-3xl" />
 
-        <div className="flex-1 overflow-y-auto p-2 space-y-3">
-          {tree.map((comment) => (
+      {/* Header */}
+      <SheetHeader className="border-b border-[#1E293B] bg-[#0F172A]/90 px-6 py-5 backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <div>
+            <SheetTitle className="text-2xl font-bold text-white">
+              Discussion
+            </SheetTitle>
+
+            <SheetDescription className="mt-1 text-sm text-gray-400">
+              {totalComments} people joined this conversation.
+            </SheetDescription>
+          </div>
+
+          
+        </div>
+      </SheetHeader>
+
+      {/* Comments */}
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 scrollbar-thin scrollbar-thumb-[#1E293B]">
+        {tree.length > 0 ? (
+          tree.map((comment) => (
             <CommentItem
               key={comment.id}
               comment={comment}
               onReply={replyComment}
               onUpdate={updateComment}
               onDelete={deleteComment}
-              currentUserId={currentUserId} // 3. ID yang sudah di-decode diteruskan
+              currentUserId={currentUserId}
             />
-          ))}
-        </div>
-
-        <div className="border-t border-gray-700 p-3 space-y-2">
-          <div className="flex flex-col gap-2">
-             <Textarea
-              placeholder={currentUserId ? "Write a comment..." : "Login to comment"}
-              disabled={!currentUserId}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="bg-[#0F172A] border-gray-700 text-white"
-            />
-            <div className="flex justify-end">
-              <Button 
-                onClick={createComment} 
-                disabled={!currentUserId}
-                className="bg-blue-600 hover:bg-blue-700">
-                Send
-              </Button>
+          ))
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center py-20 text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-[#111827] border border-[#1E293B]">
+              <MessageSquare className="text-blue-400" size={28} />
             </div>
+
+            <h2 className="text-lg font-semibold text-white">
+              No comments yet
+            </h2>
+
+            <p className="mt-2 max-w-sm text-sm text-gray-400">
+              Start the discussion and share your thoughts with the community.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Input */}
+      <div className="border-t border-[#1E293B] bg-[#0F172A]/90 p-5 backdrop-blur-xl">
+        <div className="rounded-3xl border border-[#1E293B] bg-[#111827]/90 p-4 shadow-2xl">
+          <Textarea
+            placeholder={
+              currentUserId
+                ? "Share your thoughts..."
+                : "Login to join the discussion"
+            }
+            disabled={!currentUserId}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="min-h-5 resize-none border-0 bg-transparent p-0 text-sm text-white placeholder:text-gray-500 focus-visible:ring-0"
+          />
+
+          <div className="mt-4 flex items-center justify-between">
+            <p className="text-xs text-gray-500">
+              Be respectful and constructive.
+            </p>
+
+            <Button
+              onClick={createComment}
+              disabled={!currentUserId}
+              className="h-11 rounded-2xl bg-blue-600 px-6 font-semibold text-white shadow-lg shadow-blue-600/20 transition-all duration-300 hover:scale-[1.02] hover:bg-blue-700"
+            >
+              Send Comment
+            </Button>
           </div>
         </div>
-      </SheetContent>
-    </Sheet>
-  );
+      </div>
+    </SheetContent>
+  </Sheet>
+);
 }
